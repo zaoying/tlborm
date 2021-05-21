@@ -1,3 +1,2 @@
-book
 # there currently exists a bug in mdBook that makes our ../README.md emit an index.html outside of the build dir
 index.html
