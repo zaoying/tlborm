@@ -1,9 +1,10 @@
-# Macros, A Methodical Introduction
+# 方法论
 
-This chapter will introduce Rust's [Macro-By-Example][mbe] system: [`macro_rules!`][mbe]. Rather
-than trying to cover it based on practical examples, it will instead attempt to give you a complete
-and thorough explanation of *how* the system works. As such, this is intended for people who just
-want the system as a whole explained, rather than be guided through it.
+本章将介绍 Rust 的声明宏系统： [`macro_rules!`][mbe]，这在 [Reference: Macro-By-Example][mbe] 一节中介绍过。
+与其根据实际例子来阐述，不如试着对宏系统的工作原理进行完整而透彻的解释。
+因此，这章意在解释宏系统如何作为一个整体运作，而不是给想要一步步引导编写宏的人准备的。
+
+
 
 There is also the [Macros chapter of the Rust Book] which is a more approachable, high-level
 explanation, the reference [chapter](https://doc.rust-lang.org/reference/macros-by-example.html)

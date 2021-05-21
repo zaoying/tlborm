@@ -1,11 +1,15 @@
-# The Little Book of Rust Macros
+# The Little Book of Rust Macros （Rust 宏之书）
 
-> **Note**: This is a continuation of [Daniel Keep's Book](https://github.com/DanielKeep/tlborm)
-> which has not been updated since the early summer of 2016, adapted to make use of
-> [mdBook](https://github.com/rust-lang/mdBook).
+> 注意：这是对 [Daniel Keep 撰写的书](https://github.com/DanielKeep/tlborm) 的续写，
+> 自 2016 年初夏以来，那本书就一直没再更新。
 
-View the [rendered version here](https://veykril.github.io/tlborm/) and the
-[repository here](https://github.com/veykril/tlborm).
+本书使用 [mdBook](https://github.com/rust-lang/mdBook) 工具生成。
+您可以浏览本书的 [英文版本](https://veykril.github.io/tlborm/)，
+和 [github 仓库](https://github.com/veykril/tlborm)。（译者注：续写的版本由 Veykril 编写 ）
+
+
+
+
 
 This book is an attempt to distill the Rust community's collective knowledge of Rust macros,
 `Macros by Example` to be precise.  As such, both additions (in the form of pull requests) and
