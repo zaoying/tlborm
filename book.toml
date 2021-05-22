@@ -1,9 +1,10 @@
 [book]
-authors = ["Lukas Wirth"]
+authors = ["zjp"]
 language = "en"
 multilingual = false
 src = "src"
-title = "The Little Book of Rust Macros"
+title = "The Little Book of Rust Macros （Rust 宏之书）"
+
 
 [build]
 create-missing = true
@@ -13,5 +14,12 @@ build-dir = "book"
 default-theme = "ayu"
 site-url = "/tlborm/"
 mathjax-support = true
-git-repository-url = "https://github.com/veykril/tlborm/"
+git-repository-url = "https://github.com/zjp-CN/tlborm"
 additional-css = ["res/rust-syntax-bg-highlight.css"]
+
+[output.html.fold]
+enable = true
+level = 0
+
+[output.html.playground]
+editable = true
