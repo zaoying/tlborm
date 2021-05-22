@@ -4,36 +4,25 @@
 > 自 2016 年初夏以来，那本书就一直没再更新。
 
 本书使用 [mdBook](https://github.com/rust-lang/mdBook) 工具生成。
-您可以浏览本书的 [英文版本](https://veykril.github.io/tlborm/)，
-和 [github 仓库](https://github.com/veykril/tlborm)。（译者注：续写的版本由 Veykril 编写 ）
+你可以浏览本书的 [英文版本](https://veykril.github.io/tlborm/)，
+和 github [仓库](https://github.com/veykril/tlborm)。
 
+（译者注：续写的版本由 [Veykril](https://github.com/Veykril) 编写。
+你也可以浏览 [中文翻译版](https://zjp-cn.github.io/tlborm/book)、 [翻译仓库](https://github.com/zjp-CN/tlborm) ）
 
+这本书尝试提炼出 Rust 社区对 Rust 宏的共识，准确地说，是 *通过例子* 来讲述宏。因此，欢迎 PR 补充和提 issue。
 
+在我学习 Rust 的时候，*Little Book of Rust Macros* [原作](https://github.com/DanielKeep/tlborm) **通过例子** 的方式非常给力地帮助过我理解宏。
+很遗憾的是，Rust 语言与宏系统持续改进时，原作者不再更新书籍。
+这也是我想重新继续这本书的原因，让书与当前的 Rust 同步，以帮助新的 Rust 学习者理解宏——这个让很多人困惑的部分。
 
+> 这本书认为你应该对 Rust 有基本的了解，它不会解释 Rust 语言特性或者与宏有关的结构体。
+> 如果你之前对宏没有了解，那么你必须至少阅读和理解了 [Rust Book](https://doc.rust-lang.org/stable/book/) 的前七章——建议阅读完那本书大部分内容。
 
-This book is an attempt to distill the Rust community's collective knowledge of Rust macros,
-`Macros by Example` to be precise.  As such, both additions (in the form of pull requests) and
-requests (in the form of issues) are welcome.
-The [original Little Book of Rust Macros](https://github.com/DanielKeep/tlborm) has helped me
-immensely with understanding ***Macros by Example*** style macros while I was still learning the
-language. Unfortunately, the author of the book has since left the project untouched, while the Rust
-language as well as it's macro-system keeps evolving. Which is why I wanted to revive the project
-and keep it up to date with current Rust helping other newcomers understand macros, a part of the
-language a lot of people seem to have trouble with.
+## 感谢
 
-> This book expects you to have basic knowledge of Rust, it will not explain language features or
-> constructs that are irrelevant to macros. No prior knowledge of macros is assumed. Having read and
-> understood the first seven chapters of the [Rust Book](https://doc.rust-lang.org/stable/book/) is
-> a must, though having read the majority of the book is recommended.
+感谢 Daniel Keep 最初写下这本书。感谢对原书提出建议和更正的读者：IcyFoxy、 Rym、 TheMicroWorm、 Yurume、 akavel、 cmr、 eddyb、 ogham 和 snake_case。
 
-## Thanks
+## 版权声明
 
-Thanks to Daniel Keep for the original work and thanks to the following people for suggestions and
-corrections to the original: IcyFoxy, Rym, TheMicroWorm, Yurume, akavel, cmr, eddyb, ogham, and
-snake_case.
-
-## License
-
-This work inherits the licenses of the original, hence it is licensed under both the
-[Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/)
-and the [MIT license](http://opensource.org/licenses/MIT).
+这本书沿袭了原作的版权声明，因此具有 [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/) 和 [MIT license](http://opensource.org/licenses/MIT) 的双重许可。
