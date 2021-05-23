@@ -1,4 +1,4 @@
-# Macros in the AST
+# AST 中的宏
 
 As previously mentioned, macro processing in Rust happens *after* the construction of the AST. As
 such, the syntax used to invoke a macro *must* be a proper part of the language's syntax. In fact,

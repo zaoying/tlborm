@@ -3,7 +3,7 @@ authors = ["Daniel Keep", "Veykril", "DaseinPhaos", "zjp"]
 language = "zh"
 multilingual = true
 src = "src"
-title = "The Little Book of Rust Macros （Rust 宏之书）"
+title = "The Little Book of Rust Macros （Rust 宏小册）"
 
 [build]
 create-missing = true
