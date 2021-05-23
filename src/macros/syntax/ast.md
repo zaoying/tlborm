@@ -1,35 +1,36 @@
 # AST 中的宏
 
-As previously mentioned, macro processing in Rust happens *after* the construction of the AST. As
-such, the syntax used to invoke a macro *must* be a proper part of the language's syntax. In fact,
-there are several "syntax extension" forms which are part of Rust's syntax. Specifically, the
-following 4 forms (by way of examples):
+如前所述，在 Rust 中，宏处理发生在 AST 生成之后。
+因此，调用宏的语法 *必须* 是Rust语言语法中规整相符的一部分。
 
-* `# [ $arg ]`; *e.g.* `#[derive(Clone)]`, `#[no_mangle]`, …
-* `# ! [ $arg ]`; *e.g.* `#![allow(dead_code)]`, `#![crate_name="blang"]`, …
-* `$name ! $arg`; *e.g.* `println!("Hi!")`, `concat!("a", "b")`, …
-* `$name ! $arg0 $arg1`; *e.g.* `macro_rules! dummy { () => {}; }`.
+实际上，Rust 语法包含数种“语法扩展”的形式。具体来说有以下四种（顺便给出例子）：
 
-The first two are [attributes] which annotate items, expressions and statements. They can be
-classified into different kinds, [built-in attributes], [macro attributes] and [derive attributes].
-[macro attributes] and [derive attributes] can be implemented with the second macro system that Rust
-offers, [procedural macros]. [built-in attributes] on the other hand are attributes implemented by
-the compiler.
+* `# [ $arg ]` 形式的：`#[derive(Clone)]`, `#[no_mangle]`, …
+* `# ! [ $arg ]` 形式的：`#![allow(dead_code)]`, `#![crate_name="blang"]`, …
+* `$name ! $arg` 形式的：`println!("Hi!")`, `concat!("a", "b")`, …
+* `$name ! $arg0 $arg1` 形式的：`macro_rules! dummy { () => {}; }`.
 
-The third form, `$name ! $arg`,  is the one of interest to us: function-like macros. It is the form
-available for use with `macro_rules!` macros. Note that this form is not *limited* to `macro_rules!`
-macros: it is a generic syntax extension form. For example, whilst [`format!`] is a macro,
-[`format_args!`] (which is used to *implement* [`format!`]) is *not*.
+头两种形式被称作“属性” ([attributes])。属性用来给条目 (items) 、表达式、语句加上注解。
 
-The fourth form is essentially a variation which is *not* available to macros. In fact, the only case
-where this form is used *at all* is with `macro_rules!` itself which, again we will come back to.
+属性有三类：内置的属性 ([built-in attributes])、宏属性 ([macro attributes])、派生属性([derive attributes])。
 
-Disregarding all but the third form (`$name ! $arg`), the question becomes: how does the Rust parser
-know what `$arg` looks like for every possible syntax extension? The answer is that it doesn't
-*have to*. Instead, the argument of a syntax extension invocation is a *single* token tree. More
-specifically, it is a single, *non-leaf* token tree; `(...)`, `[...]`, or `{...}`. With that
-knowledge, it should become apparent how the parser can understand all of the following invocation
-forms:
+内置的属性由编译器实现。宏属性和派生属性在 Rust 第二类宏系统——过程宏 ([procedural macros])——中实现。
+
+
+我们感兴趣的是第三种：`$name ! $arg`——像函数那样使用的宏。
+这种形式的宏 *可以* 用 `macro_rules!` 来声明。
+
+注意第三种形式的宏是一种一般的语法拓展形式，并非仅用 `macro_rules!` 写出。
+比如 [`format!`] 是一个宏，而用来实现 [`format!`] 的 [`format_args!`] 不是这里谈论的宏（后者由编译器实现）。
+
+第四种形式实际上宏无法使用。事实上，这种形式的唯一用例只有 `macro_rules!`，我们将在稍后谈到它。
+
+将注意力集中到第三种形式 `$name ! $arg` 上，我们的问题变成，对于每种可能的语法扩展，
+Rust的语法解析器 (parser) 如何知道 `$arg` 究竟长什么样？
+
+答案是它 *不需要* 知道。其实，提供给每次语法扩展调用的参数，是*一棵* 标记树 (token tree)。
+具体来说，是一棵非叶节点的标记树： `(...)`、`[...]` 或 `{...}`。
+知道这一点后，语法分析器如何理解如下调用形式，就变得显而易见了：
 
 ```rust,ignore
 bitflags! {
@@ -62,9 +63,8 @@ fn main() {
 }
 ```
 
-Although the above invocations may *look* like they contain various kinds of Rust code, the parser
-simply sees a collection of meaningless token trees. To make this clearer, we can replace all these
-syntactic "black boxes" with ⬚, leaving us with:
+虽然上述调用 *看起来* 包含了各式各样的 Rust 代码，但对语法分析器来说，它们仅仅是堆毫无意义的标记树。
+为了让事情变得更清晰，我们把所有这些句法“黑盒”用 ⬚ 代替，仅剩下：
 
 ```text
 bitflags! ⬚
@@ -76,43 +76,36 @@ fn main() {
     println! ⬚;
 }
 ```
+再次重申，语法分析器对 ⬚ 不作任何假设；它记录黑盒所包含的标记，但并不尝试理解它们。
 
-Just to reiterate: the parser does not assume *anything* about ⬚; it remembers the tokens it
-contains, but doesn't try to *understand* them. This means ⬚ can be anything, even invalid Rust! As
-to why this is a good thing, we will come back to that at a later point.
+以下几点很重要：
 
-The important takeaways are:
+*   Rust包含多种语法扩展。我们将仅仅讨论定义在 `macro_rules!` 结构中的宏。
+*   当遇见形如 `$name! $arg` 的结构时，该结构并不一定是宏，可能是其它语法扩展，比如过程宏。
+*   所有宏的输入都是非叶节点的单个标记树。
+*   宏（其实所有一般意义上的语法扩展）都将作为抽象语法树的 *一部分* 被解析。
 
-* There are multiple kinds of syntax extension in Rust. We will *only* be talking about macros
-    defined by the `macro_rules!` construct.
-* Just because you see something of the form `$name! $arg`, doesn't mean it's actually a macro; it
-    might be another kind of syntax extension, a procedural macro for example.
-* The input to every macro is a single non-leaf token tree.
-* Macros (really, syntax extensions in general) are parsed as *part* of the abstract syntax tree.
+> 此外：由于第一点，下面要谈到的内容（包括下一节）将适用于一般的语法拓展。[^writer-is-lazy]
 
-> **Aside**: due to the first point, some of what will be said below (including the next paragraph)
-> will apply to syntax extensions *in general*.[^writer-is-lazy]
+[^writer-is-lazy]: 打出“宏”比打出“语法拓展”四个字要方便太多 :)
 
-[^writer-is-lazy]: This is rather convenient as "macro" is much quicker and easier to type than
-"syntax extension".
+最后一点最为重要，它带来了一些深远的影响。
+由于宏将被解析进 AST 中，宏 *只能* 出现在那些明确支持它们出现的位置。
+具体来说，宏能在如下位置出现：
 
-The last point is the most important, as it has *significant* implications. Because macros are
-parsed into the AST, they can **only** appear in positions where they are explicitly supported.
-Specifically macros can appear in place of the following:
+*   模式 (pattern) 
+*   语句 (statement) 
+*   表达式 (expression)
+*   条目 (item) （包括 `impl` 块）
+*   [类型][type-macros]
 
-* Patterns
-* Statements
-* Expressions
-* Items(this includes `impl` Items)
-* Types
+一些并不支持的位置包括：
 
-Some things *not* on this list:
+*   标识符 (identifier)
+*   `match` 分支
+*   结构体的字段中
 
-* Identifiers
-* Match arms
-* Struct fields
-
-There is absolutely, definitely *no way* to use macros in any position *not* on the first list.
+在上述第一个列表——支持的位置 之外，绝对没有任何地方有使用宏的可能。
 
 [attributes]: https://doc.rust-lang.org/reference/attributes.html
 [built-in attributes]: https://doc.rust-lang.org/reference/attributes.html#built-in-attributes-index
@@ -121,3 +114,4 @@ There is absolutely, definitely *no way* to use macros in any position *not* on 
 [procedural macros]: https://doc.rust-lang.org/reference/procedural-macros.html
 [`format!`]: https://doc.rust-lang.org/std/macro.format.html
 [`format_args!`]: https://doc.rust-lang.org/std/macro.format_args.html
+[type-macros]: https://github.com/rust-lang/rfcs/blob/161ce8a26e70226a88e0d4d43c7914a714050330/text/0873-type-macros.md

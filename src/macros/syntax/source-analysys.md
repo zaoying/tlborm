@@ -16,7 +16,7 @@ Rust包含多种标记，比如：
 * 关键字 (keywords): `_`, `fn`, `self`, `match`, `yield`, `macro`, …
 * 符号   (symbols): `[`, `:`, `::`, `?`, `~`, `@`[^wither-at], …
 
-等等。
+[等等](https://doc.rust-lang.org/stable/reference/macros-by-example.html#metavariables)。
 
 有些地方值得注意：
 
