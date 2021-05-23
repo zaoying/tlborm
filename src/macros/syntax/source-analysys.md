@@ -1,32 +1,46 @@
-# Source Analysis
+<!-- toc -->
 
-### Tokenization
+# 源代码解析方式
 
-The first stage of compilation for a Rust program is [tokenization]. This is where the source text is
-transformed into a sequence of tokens (*i.e.* indivisible lexical units; the programming language
-equivalent of "words"). Rust has various kinds of tokens, such as:
+## 标识化 (Tokenization)
 
-* Identifiers: `foo`, `Bambous`, `self`, `we_can_dance`, `LaCaravane`, …
-* Literals: `42`, `72u32`, `0_______0`, `1.0e-40`, `"ferris was here"`, …
-* Keywords: `_`, `fn`, `self`, `match`, `yield`, `macro`, …
-* Symbols: `[`, `:`, `::`, `?`, `~`, `@`[^wither-at], …
+Rust程序编译过程的第一阶段是 [标记解析][tokenization]。
+在这一过程中，源代码将被转换成一系列的标记
+（token，即无法被分割的词法单元；在编程语言世界中等价于“单词”）。
 
-…among others. There are some things to note about the above: first, `self` is both an identifier
-*and* a keyword. In almost all cases, `self` is a keyword, but it *is* possible for it to be
-*treated* as an identifier, which will come up later (along with much cursing). Secondly, the list
-of keywords includes some suspicious entries such as `yield` and `macro` that aren't *actually* in
-the language, but *are* parsed by the compiler—these are [reserved] for future use. Third, the list
-of symbols *also* includes entries that aren't used by the language. In the case of `<-`, it is
-vestigial: it was removed from the grammar, but not from the lexer. As a final point, note that
-`::` is a distinct token; it is not simply two adjacent `:` tokens. The same is true of all
-multi-character symbol tokens in Rust, as of Rust 1.2.[^two-lexers]
+Rust包含多种标记，比如：
 
-[^wither-at]: `@` has a purpose, though most people seem to forget about it completely: it is used
-in patterns to bind a non-terminal part of the pattern to a name.
+* 标识符 (identifiers): `foo`, `Bambous`, `self`, `we_can_dance`, `LaCaravane`, …
+* 字面值 (literals): `42`, `72u32`, `0_______0`, `1.0e-40`, `"ferris was here"`, …
+* 关键字 (keywords): `_`, `fn`, `self`, `match`, `yield`, `macro`, …
+* 符号   (symbols): `[`, `:`, `::`, `?`, `~`, `@`[^wither-at], …
 
-[^two-lexers]: Technically rust currently(1.46) has two lexers, [`rustc_lexer`] which only emits
-single character symbols as tokens and the [lexer] in [`rustc_parse`] which sees multi-character
-symbols as distinct tokens.
+等等。
+
+有些地方值得注意：
+
+1. `self` 既是一个标识符又是一个关键词。
+几乎在所有情况下它都被视作是一个关键词，但它有可能被视为标识符。
+我们稍后会（骂骂咧咧地）提到这种情况。
+
+2. 关键词里列有一些可疑的家伙，比如 `yield` 和 `macro`。
+它们在当前的Rust语言中并没有任何含义，但编译器的确会把它们视作关键词进行解析。
+这些词语被保留作语言未来扩充时使用。
+
+3. 符号里也列有一些未被当前语言使用的条目。比如 `<-`，这是历史残留：
+目前它被移除了Rust语法，但词法分析器仍然没丢掉它。
+
+4. 注意 `::` 被视作一个独立的标记，而非两个连续的 `:` 。
+这一规则适用于截至 Rust 1.2 版本的所有的多字符符号标记。
+[^two-lexers]
+
+[^wither-at]: `@` 被用在模式中，用来绑定模式非终止的部分到一个名称——但这似乎被大多数人完全地遗忘了。
+
+[^two-lexers]: 严格来说， Rust 1.46 版本中存在两个词法分析器 (lexer)：
+[`rustc_lexer`] 只将单个字符作为 标识 (tokens)；
+[`rustc_parse`] 里的 [lexer] 把多个字符作为不同的 标识 (tokens)。
+
+作为对比，某些语言的宏系统正扎根于这一阶段。Rust并非如此。举例来说，从效果来看，C/C++的宏就是在这里得到处理的。^其实不是这也正是下列代码能够运行的原因:
 
 As a point of comparison, it is at *this* stage that some languages have their macro layer, though
 Rust does *not*. For example, C/C++ macros are *effectively* processed at this point.
