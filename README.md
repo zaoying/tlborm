@@ -8,7 +8,7 @@
 和 github [仓库](https://github.com/veykril/tlborm)。
 
 （译者注：续写的版本由 [Veykril](https://github.com/Veykril) 撰稿。
-你也可以浏览 [中文翻译版](https://zjp-cn.github.io/tlborm/book)、 [翻译仓库](https://github.com/zjp-CN/tlborm) ）
+你也可以浏览 [中文翻译版](https://zjp-cn.github.io/tlborm/book)、 [翻译仓库](https://github.com/zjp-CN/tlborm) 。）
 
 这本书尝试提炼出 Rust 社区对 Rust 宏的共识，准确地说，是 *通过例子* 来讲述宏。因此，欢迎 PR 补充和提 issue。
 
