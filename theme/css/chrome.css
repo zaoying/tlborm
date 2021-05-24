@@ -15,7 +15,8 @@ html {
 .content a:link,
 a:visited,
 a > .hljs {
-    color: var(--links);
+    color: var(--fg);
+    /* color: var(--links); */
 }
 
 /* Menu Bar */
