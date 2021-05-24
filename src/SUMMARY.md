@@ -10,7 +10,7 @@
     - [`macro_rules!`](./macros/macro_rules.md)
     - [细节](./macros/minutiae.md)
         - [片段分类符](./macros/minutiae/fragment-specifiers.md)
-        - [元变量与展开](./macros/minutiae/metavar-and-expansion.md)
+        - [再谈元变量与宏展开](./macros/minutiae/metavar-and-expansion.md)
         - [宏是“卫生的”](./macros/minutiae/hygiene.md)
         - [非标识符的“标识符”](./macros/minutiae/identifiers.md)
         - [调试](./macros/minutiae/debugging.md)

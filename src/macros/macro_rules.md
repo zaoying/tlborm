@@ -51,19 +51,13 @@ macro_rules! four {
 
 它将且仅将匹配到空的输入，即 `four!()`、`four![]` 或 `four!{}` 。
 
-注意调用所用的分组标记并不需要匹配定义时采用的分组标记。也就是说，你可以通过four![]调用上述宏，此调用仍将被视作匹配。只有调用时的输入内容才会被纳入匹配考量范围。
+注意调用所用的分组标记并 *不需要* 匹配定义时采用的分组标记。
+也就是说，你可以通过 `four![]` 调用上述宏，此调用仍将被视作匹配。
+只有调用时的输入内容才会被纳入匹配考量范围。
 
-模式中也可以包含字面标记树。这些标记树必须被完全匹配。将整个对应标记树在相应位置写下即可。比如，为匹配标记序列4 fn ['spang "whammo"] @_@，我们可以使用：
-
-This matches if and only if the input is also empty (*i.e.* `four!()`, `four![]` or `four!{}`).
-
-Note that the specific grouping tokens you use when you invoke the macro *are not* matched. That is,
-you can invoke the above macro as `four![]` and it will still match. Only the *contents* of the
-input token tree are considered.
-
-Matchers can also contain literal token trees, which must be matched exactly. This is done by simply
-writing the token trees normally. For example, to match the sequence `4 fn ['spang "whammo"] @_@`,
-you would write:
+模式中也可以包含字面值 (literal) 标记树，这些标记树必须被完全匹配。
+将整个对应标记树在相应位置写下即可。
+比如，为匹配标记序列 `4 fn ['spang "whammo"] @_@` ，我们可以这样写：
 
 ```rust,ignore
 macro_rules! gibberish {
@@ -71,35 +65,38 @@ macro_rules! gibberish {
 }
 ```
 
-You can use any token tree that you can write.
+使用 `gibberish!(4 fn ['spang "whammo"] @_@'])` 即可成功匹配和调用。
 
-## Metavariables
+你可以使用能写出的任何标记树。
 
-Matchers can also contain captures. These allow input to be matched based on some general grammar
-category, with the result captured to a metavariable which can then be substituted into the output.
+## 元变量 (Metavariables)
 
-Captures are written as a dollar (`$`) followed by an identifier, a colon (`:`), and finally the
-kind of capture which is also called the fragment-specifier, which must be one of the following:
+模式 (macther) 还可以包含捕获。
+即基于某种通用语法来匹配输入类别，并将结果捕获到元变量中，然后将其替换到输出中。
 
-* `block`: a block (i.e. a block of statements and/or an expression, surrounded by braces)
-* `expr`: an expression
-* `ident`: an identifier (this includes keywords)
-* `item`: an item, like a function, struct, module, impl, etc.
-* `lifetime`: a lifetime (e.g. `'foo`, `'static`, ...)
-* `literal`: a literal (e.g. `"Hello World!"`, `3.14`, `'🦀'`, ...)
-* `meta`: a meta item; the things that go inside the `#[...]` and `#![...]` attributes
-* `pat`: a pattern
-* `path`: a path (e.g. `foo`, `::std::mem::replace`, `transmute::<_, int>`, …)
-* `stmt`: a statement
-* `tt`: a single token tree
-* `ty`: a type
-* `vis`: a possible empty visibility qualifier (e.g. `pub`, `pub(in crate)`, ...)
+捕获以美元（`$`）形式写入，其后跟标识符 冒号（`:`），最后是捕获类型，
+也称为 **片段分类符** ([fragment-specifier](https://doc.rust-lang.org/nightly/reference/macros-by-example.html#metavariables))，
+片段分类符必须是以下类型之一：
 
+* `block` 块：比如用大括号包围起来的语句和/或表达式
+* `expr` 表达式 (expression)
+* `ident` 标识符 (identifier)：包括关键字 (keywords)
+* `item` 条目：比如函数、结构体、模块、`impl` 块
+* `lifetime` 生命周期注解：比如 `'foo`、`'static`
+* `literal` 字面值：比如 `"Hello World!"`、`3.14`、`'🦀'`
+* `meta` 元信息：指 `#[...]` 和 `#![...]` 属性内部的元信息条目
+* `pat` 模式 (pattern)
+* `path` 路径：比如 `foo`、`::std::mem::replace`、`transmute::<_, int>`
+* `stmt` 语句 (statement)
+* `tt`：单棵标记树 (single token tree)
+* `ty` 类型
+* `vis` 可视标识符：可能为空的可视标识符，比如 `pub`、`pub(in crate)`
+
+更深入的片段分类符在 [Fragment Specifiers](./minutiae/fragment-specifiers.md)
 For more in-depth description of the fragement specifiers, check out the
 [Fragment Specifiers](./minutiae/fragment-specifiers.md) chapter.
 
-For example, here is a `macro_rules!` macro which captures its input as an expression under the
-metavariable `$e`:
+比如以下 `macro_rules!` 宏捕获一个表达式输入，并绑定给元变量 `$e`：
 
 ```rust,ignore
 macro_rules! one_expression {
@@ -107,14 +104,12 @@ macro_rules! one_expression {
 }
 ```
 
-These metavariables leverage the Rust compiler's parser, ensuring that they are always "correct". An
-`expr` metavariables will *always* capture a complete, valid expression for the version of Rust being
-compiled.
+元变量对 Rust 编译器的解析器产生影响，使得元变量总是“正确无误”。
+`expr` 表达式元变量总是捕获完整且符合 Rust 编译版本的表达式。
 
-You can mix literal token trees and metavariables, within limits ([explained below]).
+你可以在有限的条件内同时结合字面值标记树和元变量。（[下文会解释][explained below]）
 
-To refer to a metavariable you simply write `$name`, as the type of the variable is already
-specified in the matcher. For example:
+当元变量被明确匹配到的时候，只需要写 `$name` 就能引用元变量的值。比如：
 
 ```rust,ignore
 macro_rules! times_five {
@@ -122,11 +117,9 @@ macro_rules! times_five {
 }
 ```
 
-Much like macro expansion, metavariables are substituted as complete AST nodes. This means that no
-matter what sequence of tokens is captured by `$e`, it will be interpreted as a single, complete
-expression.
+元变量被替换成完整的 AST 节点，这很像宏展开。这也意味着被 `$e` 捕获的任何标记序列都会被解析成单个完整的表达式。
 
-You can also have multiple metavariables in a single matcher:
+你也可以一个模式匹配中使用多个元变量：
 
 ```rust,ignore
 macro_rules! multiply_add {
@@ -134,7 +127,7 @@ macro_rules! multiply_add {
 }
 ```
 
-And use them as often as you like in the expansion:
+然后在展开的地方（指 `=>` 到 `;` 之间）使用任意多的元变量：
 
 ```rust,ignore
 macro_rules! discard {
@@ -145,37 +138,32 @@ macro_rules! repeat {
 }
 ```
 
-There is also a special metavariable called [`$crate`] which can be used to refer to the current
-crate.
+有一个特殊的宏变量叫做 [`$crate`] ，它用来指代当前 crate 。
 
 [`$crate`]:./minutiae/hygiene.html#crate
 
-## Repetitions
+## 反复捕获 (Repetitions)
 
-Matchers can contain repetitions. These allow a sequence of tokens to be matched. These have the
-general form `$ ( ... ) sep rep`.
+模式匹配可以重复。这使得匹配一连串标记 (token) 成为可能。反复捕获的一般形式为 `$ ( ...  ) sep rep` 。
 
-* `$` is a literal dollar token.
-* `( ... )` is the paren-grouped matcher being repeated.
-* `sep` is an *optional* separator token. It may not be a delimiter or one
-    of the repetition operators. Common examples are `,` and `;`.
-* `rep` is the *required* repeat operator. Currently, this can be:
-    * `?`: indicating at most one repetition
-    * `*`: indicating zero or more repetitions
-    * `+`: indicating one or more repetitions
+（译者注：我更倾向于使用 “反复” 作为动词，使用 “重复“ 作为名词和形容词）
 
-    Since `?` represents at most one occurrence, it cannot be used with a separator.
+* `$` 是字面上的美元符号标记
+* `( ... )` 是被反复匹配的模式，由小括号包围。
+* `sep` 是 **可选** 的分隔标记。它不能是括号或者重复操作符。常用例子包括 `,` 和 `;` 。
+* `rep` 是 **必须** 的重复操作符。当前可以是：
+    * `?`：表示 最多一次重复，所以不能用于分割标记。
+    * `*`：表示 零次或多次重复。
+    * `+`：表示 一次或多次重复。
 
-Repetitions can contain any other valid matcher, including literal token trees, metavariables, and
-other repetitions allowing arbitrary nesting.
+重复中可以包含任意有效模式，包括字面标记树、元变量以及任意嵌套的重复。
 
-Repetitions use the same syntax in the expansion and repeated metavariables can only be accessed
-inside of repetitions in the expansion.
+在展开的地方（指 `=>` 到 `;` 之间），重复也采用相同的语法。
 
-For example, below is a macro which formats each element as a string. It matches zero or more
-comma-separated expressions and expands to an expression that constructs a vector.
+举例来说，下面这个宏将每一个元素都转换成字符串。
+它将匹配零或多个由逗号分隔的表达式，并分别将它们拓展成构造 `Vec` 的表达式。
 
-```rust
+```rust,editable
 macro_rules! vec_strs {
     (
         // Start a repetition:
@@ -211,10 +199,10 @@ fn main() {
 }
 ```
 
-You can repeat multiple metavariables in a single repetition as long as all metavariables repeat
-equally often. So this invocation of the following macro works:
+你可以在一个重复语句里面使用多次和多个元变量，只要这些元变量以相同的次数重复。
+下面的宏和调用代码正常运行：
 
-```rust
+```rust,editable
 macro_rules! repeat_two {
     ($($i:ident)*, $($i2:ident)*) => {
         $( let $i: (); let $i2: (); )*
@@ -224,9 +212,9 @@ macro_rules! repeat_two {
 repeat_two!( a b c d e f, u v w x y z );
 ```
 
-But this does not:
+但是这下面的不能运行：
 
-```rust
+```rust,editable
 # macro_rules! repeat_two {
 #     ($($i:ident)*, $($i2:ident)*) => {
 #         $( let $i: (); let $i2: (); )*
@@ -236,7 +224,7 @@ But this does not:
 repeat_two!( a b c d e f, x y z );
 ```
 
-failing with the following error
+运行报以下错误：
 
 ```
 error: meta-variable `i` repeats 6 times, but `i2` repeats 3 times
@@ -248,6 +236,6 @@ error: meta-variable `i` repeats 6 times, but `i2` repeats 3 times
 
 &nbsp;
 
-For the complete grammar definition you may want to consult the 
+想了解完整的定义语法，可以参考 Rust Reference 书的
 [Macros By Example](https://doc.rust-lang.org/reference/macros-by-example.html#macros-by-example)
-chapter of the Rust reference.
+一章。

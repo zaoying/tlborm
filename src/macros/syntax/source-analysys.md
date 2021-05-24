@@ -37,7 +37,7 @@ Rust包含多种标记，比如：
 
 [^wither-at]: `@` 被用在模式中，用来绑定模式非终止的部分到一个名称——但这似乎被大多数人完全地遗忘了。
 
-[^two-lexers]: 严格来说， Rust 1.46 版本中存在两个词法分析器 (lexer)：
+[^two-lexers]: 严格来说， Rust 1.52 版本中存在两个词法分析器 (lexer)：
 [`rustc_lexer`] 只将单个字符作为 标记 (tokens)；
 [`rustc_parse`] 里的 [lexer] 把多个字符作为不同的 标记 (tokens)。
 

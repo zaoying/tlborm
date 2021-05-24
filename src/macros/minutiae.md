@@ -1,4 +1,3 @@
-# Minutiae
+# 细节问题
 
-This section goes through some of the finer details of the `macro_rules!` system. At a minimum, you should
-try to be at least *aware* of these details and issues.
+本节将介绍 `macro_rules!` 宏系统的一些细枝末节。你至少应该 *记住* 有这些东西存在。
