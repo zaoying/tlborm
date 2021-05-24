@@ -1,8 +1,8 @@
 # `macro_rules!`
 
-With all that in mind, we can introduce `macro_rules!` itself. As noted previously, `macro_rules!`
-is *itself* a syntax extension, meaning it is *technically* not part of the Rust syntax. It uses the
-following forms:
+有了这些知识，我们终于可以引入 `macro_rules!` 了。
+如前所述，`macro_rules!` 本身就是一个语法扩展，
+也就是说它并不是 Rust 语法的一部分。它的形式如下：
 
 ```rust,ignore
 macro_rules! $name {
@@ -13,41 +13,47 @@ macro_rules! $name {
 }
 ```
 
-There must be *at least* one rule, and you can omit the semicolon after the last rule. You can use
-brackets(`[]`), parentheses(`()`) or braces(`{}`). Invocations with `{ .. }` and `( ... );`, notice
-the trailing semicolon, will *always* be parsed as an *item*.
+*至少得有一条规则* (rule) ，最后一条规则后面的分号可被省略。
+规则里你可以使用大/中/小括号：`{}`、`[]`、`()`。
+调用宏时使用 `{ .. }` 或者 `( ... );` 形式（带分号或者不带分号）。
+注意最后的分号 *总是* 会被解析成一个条目 (item)。
 
-Each *"rule"* looks like the following:
+每条“规则”都形如：
 
 ```ignore
     ($matcher) => {$expansion}
 ```
 
-Like before, the types of parentheses used can be any kind, but parentheses around the matcher and
-braces around the expansion are somewhat conventional. The expansion part of a rule is also called
-its *transcriber*.
+如前所述，分组符号可以是任意一种括号，在模式匹配外侧使用小括号、表达式外侧使用大括号只是出于传统。
 
-If you are wondering, the `macro_rules!` invocation expands to... *nothing*.  At least, nothing that
-appears in the AST; rather, it manipulates compiler-internal structures to register the macro. As
-such, you can *technically* use `macro_rules!` in any position where an empty expansion is valid.
+如果你好奇的话，`macro_rules!` 的调用将被展开为   *空* 。
+至少，在 AST 中它被展开为空。
+它所影响的是编译器内部的结构，以将该宏注册 (register) 进去。
+因此，技术上讲你可以在任何一个空展开合法的位置使用 `macro_rules!` 。
 
-## Matching
+## 模式匹配
 
-When a `macro_rules!` macro is invoked, the `macro_rules!` interpreter goes through the rules one by
-one, in declaration order. For each rule, it tries to match the contents of the input token tree
-against that rule's `matcher`. A matcher must match the *entirety* of the input to be considered a
-match.
+当一个宏被调用时，对应的 `macro_rules!` 解释器将按照声明顺序一一检查规则。
+对每条规则，它都将尝试将输入标记树的内容与该规则的进行匹配。
+某个模式必须与输入 *完全* 匹配才被认为是一次匹配。（这里所译“模式”的原词叫 matcher）
 
-If the input matches the matcher, the invocation is replaced by the `expansion`; otherwise, the next
-rule is tried. If all rules fail to match, macro expansion fails with an error.
+如果输入与某个模式相匹配，则该调用项将被相应的展开内容所取代；
+否则，将尝试匹配下条规则。
+如果所有规则均匹配失败，则宏展开会失败并报错。
 
-The simplest example is of an empty matcher:
+最简单的例子是空模式：
 
 ```rust,ignore
 macro_rules! four {
     () => { 1 + 3 };
 }
 ```
+
+它将且仅将匹配到空的输入，即 `four!()`、`four![]` 或 `four!{}` 。
+
+注意调用所用的分组标记并不需要匹配定义时采用的分组标记。也就是说，你可以通过four![]调用上述宏，此调用仍将被视作匹配。只有调用时的输入内容才会被纳入匹配考量范围。
+
+模式中也可以包含字面标记树。这些标记树必须被完全匹配。将整个对应标记树在相应位置写下即可。比如，为匹配标记序列4 fn ['spang "whammo"] @_@，我们可以使用：
 
 This matches if and only if the input is also empty (*i.e.* `four!()`, `four![]` or `four!{}`).
 

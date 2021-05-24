@@ -29,3 +29,5 @@
     - [计数](./building-blocks/counting.md)
         - [算盘计数](./building-blocks/abacus-counting.md)
     - [解析](./building-blocks/parsing.md)
+
+[翻译说明](./translation_statement.md)

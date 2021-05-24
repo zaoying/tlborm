@@ -7,9 +7,7 @@
 你可以浏览本书的 [英文版本](https://veykril.github.io/tlborm/)，
 和 github [仓库](https://github.com/veykril/tlborm)。
 
-（译者注：续写的版本由 [Veykril](https://github.com/Veykril) 撰稿。
-你也可以浏览 [中文版](https://zjp-cn.github.io/tlborm) 
-和 [翻译仓库](https://github.com/zjp-CN/tlborm) 。）
+（译者注：我对原作和续作进行了梳理，见 [翻译说明](./translation_statement.html)）
 
 这本书尝试提炼出 Rust 社区对 Rust 宏的共识，准确地说，是 *通过例子* 来讲述宏。
 因此，欢迎 PR 补充和提 issue。
@@ -25,7 +23,7 @@
 
 ## 致谢
 
-感谢 Daniel Keep 最初写下这本书。
+感谢 [Daniel Keep](https://github.com/DanielKeep/tlborm) 最初写下这本书。
 
 感谢对原书提出建议和更正的读者：IcyFoxy、 Rym、 TheMicroWorm、 Yurume、 akavel、 cmr、 eddyb、 ogham 和 snake_case。
 
