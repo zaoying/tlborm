@@ -1,13 +1,27 @@
-# Non-Identifier Identifiers
+# 非标识符的“标识符”
 
-There are two tokens which you are likely to run into eventually that *look* like identifiers,
-but aren't. Except when they are.
+> 译者注：这一章的内容“**可能**”有些过时。（需要大佬帮助说明！）
+>
+> 根据我的理解，主要是讲 Rust 语法里的关键字在 `macro_rules!` 中可使用 [`ident`] 或者 [`tt`] 
+分类符来匹配。当然，不仅仅是这里例举的 `self`，可以是任何关键字。
+>
+> 对于 `_` ，它只能在模式中使用，声明宏中不能用 [`ident`] 分类符匹配，
+> 而是用  [`pat`] 或者 [`tt`] 分类符。
+>
+> 你可以在 [片段分类符] 一章的 13 种分类符的所有样板代码块中编辑运行代码，
+> 尝试验证你认为的 token 属于哪种。
+> 
+> 以下为原文。
 
-First is `self`. This is *very definitely* a keyword. However, it also happens to fit the definition
-of an identifier. In regular Rust code, there's no way for `self` to be interpreted as an identifier,
-but it *can* happen with `macro_rules!` macros:
+有两个标记，当你撞见时，很有可能最终认为它们是标识符 ([`ident`])，但实际上它们不是。
+然而正是这些标记，在某些情况下又的确是标识符。
 
-```rust
+第一个是 `self`。
+毫无疑问，它是一个 **关键词** (keyword)。
+在一般的 Rust 代码中，不可能出现把它解读成标识符的情况；
+但在宏中这种情况则有可能发生：
+
+```rust,editable
 macro_rules! what_is {
     (self) => {"the keyword `self`"};
     ($i:ident) => {concat!("the identifier `", stringify!($i), "`")};
@@ -23,18 +37,19 @@ fn main() {
 }
 ```
 
-The above outputs:
+上述代码的输出将是：
 
 ```text
 the keyword `self`
 the keyword `self`
 ```
 
-But that makes no sense; `call_with_ident!` required an identifier, matched one, and substituted it!
-So `self` is both a keyword and not a keyword at the same time. You might wonder how this is in any
-way important. Take this example:
+但这没有任何道理！
+`call_with_ident!` 要求一个标识符，而且它的确匹配到了，还成功替换了！
+所以，`self` 同时是一个关键词，但又不是。
+你可能会想，好吧，但这鬼东西哪里重要呢？看看这个：
 
-```rust
+```rust,editable
 macro_rules! make_mutable {
     ($i:ident) => {let mut $i = $i;};
 }
@@ -54,7 +69,7 @@ impl Dummy {
 # }
 ```
 
-This fails to compile with:
+编译它会失败，并报错：
 
 ```text
 error: `mut` must be followed by a named binding
@@ -69,11 +84,12 @@ error: `mut` must be followed by a named binding
   = note: `mut` may be followed by `variable` and `variable @ pattern`
 ```
 
-So the macro will happily match `self` as an identifier, allowing you to use it in cases where you
-can't actually use it. But, fine; it somehow remembers that `self` is a keyword even when it's an
-identifier, so you *should* be able to do this, right?
+所以说，宏在匹配的时候，会欣然把self当作标识符接受，
+进而允许你把 `self` 带到那些实际上没办法使用的情况中去。
+但是，也成吧，既然得同时记住 `self` 既是关键词又是标识符，
+那下面这个讲道理应该可行，对吧？
 
-```rust
+```rust,editable
 macro_rules! make_self_mutable {
     ($i:ident) => {let mut $i = self;};
 }
@@ -93,7 +109,7 @@ impl Dummy {
 # }
 ```
 
-This fails with:
+实际上也不行，编译错误变成：
 
 ```text
 error[E0424]: expected value, found module `self`
@@ -112,12 +128,11 @@ error[E0424]: expected value, found module `self`
    |
 ```
 
-Now the compiler thinks we refer to our module with `self`, but that doesn't make sense. We already
-have a `self` right there, in the function signature which is definitely not a module. It's almost
-like it's complaining that the `self` it's trying to use isn't the *same* `self`... as though the
-`self` keyword has hygiene, like an... identifier.
+这同样也没有任何道理。
+这简直就像是在抱怨说，它看见的两个 `self` 不是同一个 `self` ... 
+就搞得像关键词 `self` 就像标识符一样，也有卫生性。
 
-```rust
+```rust,editable
 macro_rules! double_method {
     ($body:expr) => {
         fn double(mut self) -> Dummy {
@@ -140,9 +155,9 @@ impl Dummy {
 # }
 ```
 
-Same error.  What about...
+还是报同样的错。那这个如何：
 
-```rust
+```rust,editable
 macro_rules! double_method {
     ($self_:ident, $body:expr) => {
         fn double(mut $self_) -> Dummy {
@@ -165,10 +180,11 @@ impl Dummy {
 # }
 ```
 
-At last, *this works*.  So `self` is both a keyword *and* an identifier when it feels like it.
-Surely this works for other, similar constructs, right?
+终于管用了。
+所以说，`self` 是关键词，但如果想它变成标识符，那么同时也能是一个标识符。
+那么，相同的道理对类似的其它东西有用吗？
 
-```rust
+```rust,editable
 macro_rules! double_method {
     ($self_:ident, $body:expr) => {
         fn double($self_) -> Dummy {
@@ -199,14 +215,16 @@ error: no rules expected the token `_`
    |                     ^ no rules expected this token in macro call
 ```
 
-No, of course not.  `_` is a keyword that is valid in patterns and expressions, but somehow *isn't*
-an identifier like the keyword `self` is, despite matching the definition of an identifier just the
-same.
+哈，当然不行。
+`_` 在模式以及表达式中是一个有效关键词，而不是一个标识符；
+即便它 *如同* `self` 一样从定义上讲符合标识符的特性。
 
-You might think you can get around this by using `$self_:pat` instead; that way, `_` will match!
-Except, no, because `self` isn't a pattern. Joy.
+你可能觉得，既然 `_` 在模式中有效，那换成 `$self_:pat` 是不是就能一石二鸟了呢？
+可惜了，也不行，因为 `self` 不是一个有效的模式。
 
-The only work around for this (in cases where you want to accept some combination of these tokens)
-is to use a [`tt`] matcher instead.
+如果你真想同时匹配这两个标记，仅有的办法是换用 `tt` 来匹配。
 
 [`tt`]:./fragment-specifiers.html#tt
+[`ident`]:./fragment-specifiers.html#ident
+[`pat`]:./fragment-specifiers.html#pat
+[片段分类符]:./fragment-specifiers.html

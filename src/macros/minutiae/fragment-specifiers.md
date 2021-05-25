@@ -1,7 +1,7 @@
 # 片段分类符
 
 正如在 [`macro_rules`](../macro_rules.md) 一章看到的，
-1.52 版本（至今）的 Rust 已有 13 个片段分类符 (Fragment Specifiers，以下简称分类符) 。
+1.52 版本的 Rust 已有 13 个片段分类符 (Fragment Specifiers，以下简称分类符)[^metavariables] 。
 这一节会更深入地探讨他们之中的细节，每次都会展示几个匹配的例子。
 
 > 注意：除了 `ident`、`lifetime` 和 `tt` 分类符之外，
@@ -21,6 +21,8 @@
 * [`lifetime`](#lifetime)
 * [`vis`](#vis)
 * [`literal`](#literal)
+
+[^metavariables]: 最新内容可参考 *Reference* 的 [Metavariables](https://doc.rust-lang.org/nightly/reference/macros-by-example.html#metavariables) 一节。
 
 ## `item`
 

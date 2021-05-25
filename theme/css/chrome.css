@@ -13,10 +13,10 @@ html {
 }
 #searchresults a,
 .content a:link,
-a:visited,
-a > .hljs {
-    color: var(--fg);
-    /* color: var(--links); */
+.content a:visited,
+.content a > .hljs {
+    /* color: var(--fg); */
+    color: var(--links);
 }
 
 /* Menu Bar */
