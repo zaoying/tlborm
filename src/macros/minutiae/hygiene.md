@@ -1,25 +1,26 @@
-# Hygiene
+# 卫生性
 
-`macro_rules!` macros in Rust are *partially* hygienic. Specifically, they are hygienic when it
-comes to most identifiers, but *not* when it comes to generic type parameters or lifetimes.
+## 部分卫生的
 
-Hygiene works by attaching an invisible "syntax context" value to all identifiers. When two
-identifiers are compared, *both* the identifiers' textual names *and* syntax contexts must be
-identical for the two to be considered equal.
+Rust 里的 `macro_rules!` 是 **部分** 卫生的。
+具体来说，对于绝大多数标识符，它是卫生的；
+但对泛型参数和生命周期来说，它不是卫生的。
 
-To illustrate this, consider the following code:
+之所以能做到“卫生”，在于每个标识符都被赋予了一个看不见的“句法上下文”。
+在比较两个标识符时，只有在标识符的原文名称和句法上下文都 **完全一样** 的情况下，
+两个标识符才能被视作等同。
+
+为阐释这一点，考虑下述代码：
 
 <pre class="rust rust-example-rendered"><span class="synctx-0"><span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">using_a</span> {&#xa;    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {&#xa;        {&#xa;            <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="number">42</span>;&#xa;            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>&#xa;        }&#xa;    }&#xa;}&#xa;&#xa;<span class="kw">let</span> <span class="ident">four</span> <span class="op">=</span> <span class="macro">using_a</span><span class="macro">!</span>(<span class="ident">a</span> <span class="op">/</span> <span class="number">10</span>);</span></pre>
 
-We will use the background colour to denote the syntax context. Now, let's expand the macro
-invocation:
+我们将采用背景色来表示句法上下文。现在，将上述宏调用展开如下：
 
 <pre class="rust rust-example-rendered"><span class="synctx-0"><span class="kw">let</span> <span class="ident">four</span> <span class="op">=</span> </span><span class="synctx-1">{&#xa;    <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="number">42</span>;&#xa;    </span><span class="synctx-0"><span class="ident">a</span> <span class="op">/</span> <span class="number">10</span></span><span class="synctx-1">&#xa;}</span><span class="synctx-0">;</span></pre>
 
-First, recall that `macro_rules!` invocations effectively *disappear* during expansion.
+首先，回想一下，在展开的期间调用 `macro_rules!` 宏，实际不会真正出现展开的结果。
 
-Second, if you attempt to compile this code, the compiler will respond with something along the
-following lines:
+其次，如果我们现在就尝试编译上述代码，编译器将报如下错误：
 
 ```text
 error[E0425]: cannot find value `a` in this scope
@@ -29,32 +30,32 @@ error[E0425]: cannot find value `a` in this scope
    |                     ^ not found in this scope
 ```
 
-Note that the background colour (*i.e.* syntax context) for the expanded macro *changes* as part of
-expansion. Each `macro_rules!` macro expansion is given a new, unique syntax context for its
-contents. As a result, there are *two different `a`s* in the expanded code: one in the first syntax
-context, the second in the other. In other words, <code><span class="synctx-0">a</span></code> is not
-the same identifier as <code><span class="synctx-1">a</span></code>, however similar they may appear.
+注意到宏在展开后背景色（即其句法上下文）发生了改变。
+每处宏展开均赋予其内容一个新的、独一无二的上下文。
+故而，在展开后的代码中实际上存在 *两个* 不同的 `a`，它们分别有不同的句法上下文。
+即，第一个 `a` 与第二个 `a` 并不相同，即使它们便看起来很像。
 
-That said, tokens that were substituted *into* the expanded output *retain* their original syntax
-context (by virtue of having been provided to the macro as opposed to being part of the macro itself).
-Thus, the solution is to modify the macro as follows:
+尽管如此，被替换进宏展开中的标记仍然 **保持** 着它们原有的句法上下文。
+因为它们是被传给这宏的，并非这宏本身的一部分。
+因此，我们作出如下修改：
 
 <pre class="rust rust-example-rendered"><span class="synctx-0"><span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">using_a</span> {&#xa;    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">a</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {&#xa;        {&#xa;            <span class="kw">let</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">a</span> <span class="op">=</span> <span class="number">42</span>;&#xa;            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>&#xa;        }&#xa;    }&#xa;}&#xa;&#xa;<span class="kw">let</span> <span class="ident">four</span> <span class="op">=</span> <span class="macro">using_a</span><span class="macro">!</span>(<span class="ident">a</span>, <span class="ident">a</span> <span class="op">/</span> <span class="number">10</span>);</span></pre>
 
-Which, upon expansion becomes:
+展开如下：
 
 <pre class="rust rust-example-rendered"><span class="synctx-0"><span class="kw">let</span> <span class="ident">four</span> <span class="op">=</span> </span><span class="synctx-1">{&#xa;    <span class="kw">let</span> </span><span class="synctx-0"><span class="ident">a</span></span><span class="synctx-1"> <span class="op">=</span> <span class="number">42</span>;&#xa;    </span><span class="synctx-0"><span class="ident">a</span> <span class="op">/</span> <span class="number">10</span></span><span class="synctx-1">&#xa;}</span><span class="synctx-0">;</span></pre>
 
-The compiler will accept this code because there is only one `a` being used.
+因为只用了一种 `a`，编译器将欣然接受此段代码。
 
-### `$crate`
+## `$crate` 元变量
 
-Hygiene is also the reason that we need the `$crate` metavariable when our macro needs access to
-other items in the defining crate. What this special metavariable does is that it expands to an
-absolute path to the defining crate.
+
+宏需要原定义 (defining) crate 的其他 items 时，由于“卫生性”，我们需要使用 `$crate` 元变量。
+
+这个特殊的元变量所做的事情是，它展开成宏所定义的 (defining) crate 的绝对路径。
 
 ```rust,ignore
-//// Definitions in the `helper_macro` crate.
+//// 在 `helper_macro` crate 里定义 `helped!` 和 `helper!` 宏
 #[macro_export]
 macro_rules! helped {
     // () => { helper!() } // This might lead to an error due to 'helper' not being in scope.
@@ -66,18 +67,17 @@ macro_rules! helper {
     () => { () }
 }
 
-//// Usage in another crate.
-// Note that `helper_macro::helper` is not imported!
+//// 在另外的 crate 中使用这两个宏
+// 注意：`helper_macro::helper` 并没有导入进来
 use helper_macro::helped;
 
 fn unit() {
-   // but it still works due to `$crate` properly expanding to the crate path `helper_macro`
+   // 这个宏能运行通过，因为 `$crate` 正确地展开成 `helper_macro` crate 的路径（而不是使用者的路径）
    helped!();
 }
 ```
 
-Note that, because `$crate` refers to the current crate, it must be used with a fully qualified
-module path when referring to non-macro items:
+请注意，`$crate` 用在指明非宏的 items 时，它必须和完整且有效的模块路径一起使用。如下：
 
 ```rust
 pub mod inner {
