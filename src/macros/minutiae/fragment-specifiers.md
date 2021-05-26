@@ -275,7 +275,8 @@ paths! {
 ## `tt`
 
 `tt` 分类符用于匹配标记树 (TokenTree)。
-如果你是新手，对标记树不了解，那么需要回顾本书 [标记树](../syntax/source-analysys.html#token-trees)
+如果你是新手，对标记树不了解，那么需要回顾本书 
+[标记树](../syntax/source-analysys.html#标记树-token-trees)
 一节。`tt` 分类符是最有作用的分类符之一，因为它能匹配几乎所有东西，
 而且能够让你在使用宏之后检查 (inspect) 匹配的内容。
 

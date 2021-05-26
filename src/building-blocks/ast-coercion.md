@@ -1,29 +1,32 @@
-# AST Coercion
+# AST 强制转换
 
-The Rust parser is not very robust in the face of `tt` substitutions. Problems can arise when the
-parser is expecting a particular grammar construct and *instead* finds a lump of substituted `tt`
-tokens. Rather than attempt to parse them, it will often just *give up*. In these cases, it is
-necessary to employ an AST coercion.
+在替换 `tt` 时，Rust 的解析器并不十分可靠。
+当它期望得到某类特定的语法结构时，
+如果摆在它面前的是一坨替换后的 `tt` 标记，就有可能出现问题。
+解析器常常直接选择放弃解析，而非尝试去解析它们。
+在这类情况中，就要用到 AST 强制转换（简称“强转”）。
 
-```rust
-# #![allow(dead_code)]
+```rust,editable
+#![allow(dead_code)]
+
 macro_rules! as_expr { ($e:expr) => {$e} }
 macro_rules! as_item { ($i:item) => {$i} }
 macro_rules! as_pat  { ($p:pat)  => {$p} }
 macro_rules! as_stmt { ($s:stmt) => {$s} }
 macro_rules! as_ty   { ($t:ty)   => {$t} }
 
-as_item!{struct Dummy;}
-
 fn main() {
+    as_item!{struct Dummy;}
+
     as_stmt!(let as_pat!(_): as_ty!(_) = as_expr!(42));
 }
 ```
 
-These coercions are often used with [push-down accumulation] macros in order to get the parser to
-treat the final `tt` sequence as a particular kind of grammar construct.
+这些强制变换经常与 [下推累积][push-down accumulation] 宏一同使用，
+以使解析器能够将最终输出的 `tt` 序列当作某类特定的语法结构来对待。
 
-Note that this specific set of macros is determined by what macros are allowed to expand to, *not*
-what they are able to capture.
+注意：之所以只有这几种强转宏，
+是由宏 **可以展开成什么** 所决定的，
+而不是由宏能够捕捉哪些东西所决定的。
 
 [push-down accumulation]: ../patterns/push-down-acc.html

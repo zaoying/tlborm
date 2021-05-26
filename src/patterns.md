@@ -1,3 +1,3 @@
-# Patterns
+# 模式
 
-Parsing and expansion patterns.
+解析和展开模式。

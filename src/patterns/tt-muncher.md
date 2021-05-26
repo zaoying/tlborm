@@ -1,4 +1,5 @@
-# Incremental TT Munchers
+# 增量式 `TT` “撕咬机”
+
 
 ```rust
 macro_rules! mixed_rules {
@@ -32,27 +33,31 @@ macro_rules! mixed_rules {
 # }
 ```
 
-This pattern is perhaps the *most powerful* macro parsing technique available, allowing one to parse
-grammars of significant complexity.
+此模式可能是 **最强大** 的宏解析技巧。
+通过使用它，一些极其复杂的语法都能得到解析。
 
-A `TT muncher` is a recursive macro that works by incrementally processing its input one step at a
-time. At each step, it matches and removes (munches) some sequence of tokens from the start of its
-input, generates some intermediate output, then recurses on the input tail.
+> 译者注：原文标题为 *incremental `TT` muncher* 。
 
-The reason for "TT" in the name specifically is that the unprocessed part of the input is *always*
-captured as `$($tail:tt)*`. This is done as a [`tt`] repetition is the only way to *losslessly*
-capture part of a macro's input.
+“标记树撕咬机” (`TT` muncher) 是一种递归宏，
+其工作机制有赖于对输入的顺次、逐步处理 (incrementally processing) 。
+处理过程的每一步中，它都将匹配并移除（“撕咬”掉）输入头部 (start) 的一列标记 (tokens)，
+得到一些中间结果，然后再递归地处理输入剩下的尾部。
 
-The only hard restrictions on TT munchers are those imposed on the macro system as a whole:
+名称中含有“标记树”，是因为输入中尚未被处理的部分总是被捕获在 `$($tail:tt)*` 的形式中。
+之所以如此，是因为只有通过使用反复匹配 [`tt`] 才能做到 **无损地** (losslessly) 
+捕获住提供给宏的输入部分。
 
-* You can only match against literals and grammar constructs which can be captured by `macro_rules!`.
-* You cannot match unbalanced groups.
+标记树撕咬机仅有的限制，也是整个宏系统的局限：
 
-It is important, however, to keep the macro recursion limit in mind. `macro_rules!` does not have
-*any* form of tail recursion elimination or optimization. It is recommended that, when writing a TT
-muncher, you make reasonable efforts to keep recursion as limited as possible. This can be done by
-adding additional rules to account for variation in the input (as opposed to recursion into an
-intermediate layer), or by making compromises on the input syntax to make using standard repetitions
-more tractable.
+* 你只能匹配 `macro_rules!` 捕获到的字面值和语法结构。
+* 你无法匹配不成对的标记组 (unbalanced group) 。
 
-[`tt`]:./fragment-specifiers.html#tt
+然而，需要把宏递归的局限性纳入考量。
+`macro_rules!` 没有做任何形式的尾递归消除或优化。
+在写标记树撕咬机时，建议多花些功夫，尽可能地限制递归调用的次数。
+
+以下两种做法帮助你做到限制宏递归：
+1. 对于输入的变化，增加额外的匹配规则（而不是采用中间层并使用递归）；
+2. 对输入句法施加限制，以便于记录追踪标准式的反复匹配。
+
+[`tt`]:../macros/minutiae/fragment-specifiers.md#tt

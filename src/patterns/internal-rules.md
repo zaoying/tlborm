@@ -1,4 +1,4 @@
-# Internal Rules
+# 内用规则
 
 ```rust
 #[macro_export]
@@ -15,21 +15,23 @@ macro_rules! foo {
 # }
 ```
 
-Internal rules can be used to unify multiple macros into one, or to make it easier to read and write
-[TT Munchers] by explicitly naming what rule you wish to call in a macro.
+内用规则可用在以下两种情况：
+1. 将多个宏统一为一个；
+2. 通过显式命名宏中调用的规则，来简化 [`TT` “撕咬机”][TT Munchers] 的读写。
 
-So why is it useful to unify multiple macros into one? The main reasoning for this is how macros are
-handled in the 2015 Edition of Rust due to macros not being namespaced in said edition. This gives
-one the troubles of having to re-export all the internal macros as well polluting the global macro
-namespace or even worse, macro name collisions with other crates. In short, it's quite a hassle.
-This fortunately isn't really a problem anymore nowadays with a rustc version >= 1.30, for more
-information consult the [Import and Export chapter](/macros/minutiae/import-export.html). 
+那么为什么将多个宏统一为一个有用呢？
+主要原因是：在 2015 版本中，未对宏进行空间命名。这导致一个问题——必须重新导出内部定义的所有宏，
+从而污染整个全局宏命名空间；更糟糕的是，宏与其他 crate 的同名宏发生冲突。
+简而言之，这很造成很多麻烦。
+幸运的是，在 rustc版本 >= 1.30 的情况下（即 2018 版本之后），
+这不再是问题了（但是内用规则可以减少不必要声明的宏），
+有关宏导出更多信息，请参阅本书 [导入/导出宏](../macros/minutiae/import-export.md) 。
 
-Nevertheless, let's talk about how we can unify multiple macros into one with this technique and
-what exactly this technique even is.
+好了，让我们讨论如何利用“内用规则” (internal rules) 来把多个宏统一为一个，
+以及“内用规则”这项技术到底是什么吧。
 
-We have two macros, the common [`as_expr!` macro](/building-blocks/ast-coercion.html) and a `foo`
-macro that makes use of the first macro:
+这个例子有两个宏，一个常见的 [`as_expr!`](../building-blocks/ast-coercion.html) 宏
+和 `foo!` 宏，后者使用了前者。如果分开写就是下面的形式：
 
 ```rust
 #[macro_export]
@@ -47,16 +49,15 @@ macro_rules! foo {
 # }
 ```
 
-This is definitely not the nicest solution we could have for this macro, as it pollutes the global
-macro namespace as mentioned earlier. In this specific case `as_expr` is also a very simple macro
-that we only used once, so let's "embed" this macro in our `foo` macro with internal rules! To do so
-we simply prepend a new matcher for our macro consists of the matcher used in the `as_expr` macro,
-but with a small addition. We prepend a tokentree that makes it match only when specifically asked
-to. In this case we can for example use `@as_expr`, so our matcher becomes
-`(@as_expr $e:expr) => {$e};`. With this we get the macro that was defined at the very top of this
-page:
+这当然不是最好的解决办法，正如前面提到的，因为 `as_expr` 污染了全局宏命名空间。
+在这个特定的例子里，`as_expr` 只是一个简单的宏，它只会被使用一次，
+所以，利用内用规则，把它“嵌入”到 `foo` 这个宏里面吧！
 
-```rust
+在 `foo` 仅有的一条规则前面添加一条新匹配模式（新规则），
+这个匹配模式由 `as_expr` 组成（和命名），然后附加上宏的输入参数 `$e:expr` ；
+在展开里填写这个宏被匹配到时具体的内容。从而得到本章开头的代码：
+
+```rust,editable
 #[macro_export]
 macro_rules! foo {
     (@as_expr $e:expr) => {$e};
@@ -71,27 +72,22 @@ macro_rules! foo {
 # }
 ```
 
-You see how we embedded the `as_expr` macro in the `foo` one? All that changed is that instead of
-invoking the `as_expr` macro, we now invoke `foo` recursively but with a special token tree
-prepended to the arguments, `foo!(@as_expr $($tts)*)`. If you look closely you might even see that
-this pattern can be combined quite nicely with [TT Munchers]!
+可以看到，没有调用 `as_expr` 宏，而是递归调用在参数前放置了特殊标记树的 `foo!(@as_expr $($tts)*)`。
+要是你看得仔细些，你甚至会发现这个模式能好地结合 [`TT` 撕咬机][TT Munchers] ！
 
-The reason for using `@` was that, as of Rust 1.2, the `@` token is *not* used in prefix position; as
-such, it cannot conflict with anything. This reasoning became obsolete later on when in Rust 1.7
-macro matchers got future proofed by emitting a warning to prevent certain tokens from being allowed
-to follow certain fragments[^ambiguity-restrictions], which in Rust 1.12 became a hard-error. There
-other symbols or unique prefixes may be used as desired, but use of `@` has started to become
-widespread, so using it may aid readers in understanding your macro.
+之所以用 `@` ，是因为在 Rust 1.2 下，该标记尚无任何在前缀位置的用法；
+因此，这个语法定义在当时不会与任何东西撞车。
+如果你想用别的符号或特有前缀都可以（比如试试 `#`、`!` ），
+但 `@` 的用例已被传播开来，因此，使用它可能更容易帮助读者理解你的代码。
 
-[^ambiguity-restrictions]:[ambiguity-restrictions](/macros/minutiae/metavar-and-expansion.html)
+> 注意：`@` 符号很早之前曾作为前缀被用于表示被垃圾回收了的指针，
+那时 Rust 还在采用各种记号代表指针类型。
+> 
+> 而现在的 `@` 只有一种用法：
+将名称绑定至模式中（譬如 `match` 的模式匹配中）。
+在这种用法中它是中缀运算符，与我们的上述用例并不冲突。
 
-> **Note**: in the early days of Rust the `@` token was previously used in prefix position to denote
-> a garbage-collected pointer, back when the language used sigils to denote pointer types. Its
-> only *current* purpose is for binding names to patterns. For this, however, it is used as an
-> *infix* operator, and thus does not conflict with its use here.
-
-Additionally, internal rules will often come *before* any "bare" rules, to avoid issues with
-`macro_rules!` incorrectly attempting to parse an internal invocation as something it cannot
-possibly be, such as an expression.
+还有一点要注意，内用规则通常应排在“真正的”规则之前。
+这样做可避免 `macro_rules!` 错把内用规则调用解析成别的东西，比如表达式。
 
 [TT Munchers]:./tt-muncher.html
