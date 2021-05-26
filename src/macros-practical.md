@@ -1,4 +1,16 @@
-# Macros, A Practical Introduction
+# 实战篇
+
+本章节将通过一个相对简单、实际的例子来介绍 Rust 的 “示例宏” 系统。
+我们将不会试图解释整个宏系统错综复杂的构造；
+而是试图让读者能够舒适地了解宏的书写方式，以及为何如斯。
+
+在[Rust官方教程中也有一章讲解宏](http://doc.rust-lang.org/book/macros.html)([中文版](https://kaisery.gitbooks.io/rust-book-chinese/content/content/Macros%20%E5%AE%8F.html))，同样提供了高层面的讲解。同时，本书也有一章[更富条理的介绍](mbe-README.html)，旨在详细阐释宏系统。
+
+## 一点背景知识
+
+> **注意**：别慌！我们通篇只会涉及到下面这一点点数学。如果想直接看重点，本小节可被安全跳过。
+
+如果你不了解，所谓“递推(recurrence)关系”是指这样一个序列，其中的每个值都由先前的一个或多个值决定，并最终由一个或多个初始值完全决定。举例来说，[Fibonacci数列](https://en.wikipedia.org/wiki/Fibonacci_number)可被定义为如下关系：
 
 This chapter will introduce the Rust macro-by-example system using a relatively simple, practical
 example. It does *not* attempt to explain all of the intricacies of the system; its goal is to get

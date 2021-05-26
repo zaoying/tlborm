@@ -130,7 +130,7 @@ fn main() { }
 ```
 ### `#[macro_use]` 属性
 
-这个属性放置在定义所在的模块前 或者 `extern crate` 语句前。
+这个属性放置在宏定义所在的模块前 或者 `extern crate` 语句前。
 
 1. 在模块前加上 `#[macro_use]` 属性：导出该模块内的所有宏，
 从而让导出的宏在所定义的模块结束之后依然可用。
@@ -179,7 +179,7 @@ mod c {
 假设在外部名称为 `mac` 的 crate 中定义了 `X!` 宏，在当前模块：
 
 ```rust,ignore
-//// 这里的 `X!` 与 `Y!` 无关，前者定义与外部 crate，后者定义于当前 crate
+//// 这里的 `X!` 与 `Y!` 无关，前者定义于外部 crate，后者定义于当前 crate
 
 mod a {
     // X!(); // defined, but Y! is undefined

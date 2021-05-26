@@ -1,6 +1,6 @@
 # 翻译说明
 
-由于本书是续写版本，续写的版本由 Veykril 撰稿，续作对原作有补充或者删改。
+本书是续写版本，续写的版本由 Veykril 撰稿，续作对原作有补充和删改。
 
 - 原作：[repo](https://github.com/DanielKeep/tlborm) | [渲染版](https://danielkeep.github.io/tlborm/)
 - 原作中文翻译：[repo](https://github.com/DaseinPhaos/tlborm) | [渲染版](https://www.bookstack.cn/read/DaseinPhaos-tlborm-chinese/README.md)
@@ -25,3 +25,7 @@
 - 调试：[其他调试工具](./macros/minutiae/debugging.html#其他调试工具)
 - [作用域](./macros/minutiae/scoping.md)
 - [导入/导出宏](./macros/minutiae/import-export.md)
+
+
+此外，所有 [`code`](#) 蓝色样式、光标移上去有下划线的内容（普通正文或者行内代码）都是链接，可以跳转。
+无链接的行内代码样式是这样的：`code` 。

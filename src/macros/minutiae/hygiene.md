@@ -50,7 +50,7 @@ error[E0425]: cannot find value `a` in this scope
 ## `$crate` 元变量
 
 
-宏需要原定义 (defining) crate 的其他 items 时，由于“卫生性”，我们需要使用 `$crate` 元变量。
+宏需要其定义所在的 (defining) crate 的其他 items 时，由于“卫生性”，我们需要使用 `$crate` 元变量。
 
 这个特殊的元变量所做的事情是，它展开成宏所定义的 (defining) crate 的绝对路径。
 
