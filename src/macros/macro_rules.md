@@ -92,9 +92,7 @@ macro_rules! gibberish {
 * `ty` 类型
 * `vis` 可视标识符：可能为空的可视标识符，比如 `pub`、`pub(in crate)`
 
-更深入的片段分类符在 [Fragment Specifiers](./minutiae/fragment-specifiers.md)
-For more in-depth description of the fragement specifiers, check out the
-[Fragment Specifiers](./minutiae/fragment-specifiers.md) chapter.
+关于片段分类符更深入的描述请阅读 [片段分类符](./minutiae/fragment-specifiers.md) 章。
 
 比如以下 `macro_rules!` 宏捕获一个表达式输入，并绑定给元变量 `$e`：
 
