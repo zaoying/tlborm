@@ -1,17 +1,22 @@
-# Parsing Rust
+# 解析 Rust
 
-Parsing some of Rust's items can be useful in certain situations. This section will show a few
-macros that can parse some of Rust's more complex items like structs and functions to a certain extent.
-The goal of these macros is not to be able to parse the entire grammar of the items but to parse
-parts that are in general quite useful without being too complex to parse. This means we ignore
-things like generics and such.
+在有些情况下解析某些 Rust [items] 会很有用。
+这一章会展示一些能够解析 Rust 中更复杂的 items 的宏。
 
-The main points of interest of these macros are their `matchers`. The transcribers are only there
-for example purposes and are usually not that impressive.
+[items]:https://doc.rust-lang.org/nightly/reference/items.html
 
-## Function
+[transcribers]:https://doc.rust-lang.org/nightly/reference/macros-by-example.html
 
-```rust
+这些宏目的不是解析整个 items 语法，而是解析通用、有用的部分，
+解析的方式也不会太复杂。
+也就是说，我们不会涉及解析 *泛型* 之类的东西。
+
+重点在于宏的匹配方式 (matchers) ；展开的部分 （ *Reference* 里使用的词语叫做 [transcribers] ），
+仅仅用作例子，不需要特别关心它。
+
+## 解析函数
+
+```rust,editable
 macro_rules! function_item_matcher {
     (
 
