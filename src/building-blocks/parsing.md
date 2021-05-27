@@ -22,7 +22,7 @@ macro_rules! function_item_matcher {
 
         $( #[$meta:meta] )*
     //  ^~~~attributes~~~~^
-        $vis:vis fn $name:ident ( $( $arg_pat:ident : $arg_ty:ty ),* $(,)? )
+        $vis:vis fn $name:ident ( $( $arg_name:ident : $arg_ty:ty ),* $(,)? )
     //                          ^~~~~~~~~~~~~~~~argument list~~~~~~~~~~~~~~~^
             $( -> $ret_ty:ty )?
     //      ^~~~return type~~~^
@@ -47,29 +47,29 @@ macro_rules! function_item_matcher {
 # }
 ```
 
-A simple function matcher that ignores qualifiers like `unsafe`, `async`, ... as well a generics and
-where clauses. If parsing those is required it is likely that you are better off using a proc-macro
-instead.
+这是一个简单的匹配函数的例子，
+传入宏的函数不能包含 `unsafe`、`async`、泛型和 where 语句。
+如果需要解析这些内容，则最好使用 `proc-macro` （过程宏） 代替。
 
-This lets you for example, inspect the function signature, generate some extra things from it and
-then re-emit the entire function again. Kind of like a `Derive` proc-macro but weaker and for
-functions.
+这个例子可以检查函数签名，从中生成一些额外的东西，
+然后再重新返回 (re-emit) 整个函数。
+有点像 `Derive` 过程宏，虽然功能没那么强大，但是是为函数服务的
+（ `Derive` 不作用于函数）。
 
-> Ideally we would like to use a pattern fragment specifier instead of an ident for the arguments
-> but this is currently not allowed. Fortunately people don't use patterns in function signatures
-> that often so this is okay.
+> 理想情况下，我们对参数捕获宁愿使用 `pat` 分类符，而不是 `ident` 分类符，
+但这里目前不被允许（因为前者的跟随限制，不允许其后使用 `:` ）。
+幸好在函数签名里面不常使用模式 ( `pat` ) ，所以这个例子还不错。
 
-### Method
+## 方法
 
-The macro for parsing basic functions is nice and all, but sometimes we would like to also parse
-methods, functions that refer to their object via some form of `self` usage. This makes things a bit
-trickier:
+有时我们想解析方法 (methods)，方法就是通过 `self` 的某种形式指向对象的函数。
+这让事情变得棘手多了。
 
-> WIP
+> WIP （待完善）
 
-## Struct
+## 结构体
 
-```rust
+```rust,editable
 macro_rules! struct_item_matcher {
     // Unit-Struct
     (
@@ -127,6 +127,7 @@ macro_rules! struct_item_matcher {
 }
 
 #struct_item_matcher!(
+#    #[allow(dead_code)]
 #    #[derive(Copy, Clone)]
 #    pub(crate) struct Foo { 
 #       pub bar: i32,
@@ -149,15 +150,16 @@ macro_rules! struct_item_matcher {
 #}
 ```
 
-# Enum
+# 枚举体
 
-Parsing enums is a bit more complex than structs so we will finally make use of some of the
-[patterns] we have discussed, [Incremental TT Muncher] and [Internal Rules]. Instead of just
-building the parsed enum again we will merely visit all the tokens of the enum, as rebuilding the
-enum would require us to collect all the parsed tokens temporarily again via a
-[Push Down Accumulator].
+解析枚举体比解析结构体更复杂一点，所以会用上 [模式][patterns] 这章讨论的技巧：
+[`TT` 撕咬机][Incremental TT Muncher] 和 [内用规则][Internal Rules] 。
 
-```rust
+不是重新构造被解析的枚举体，而是只访问枚举体所有的标记 (tokens)，
+因为重构枚举体将需要我们再通过 [下推累积][Push Down Accumulator] 
+临时组合所有已解析的令牌 。
+
+```rust,editable
 macro_rules! enum_item_matcher {
     // tuple variant
     (@variant $variant:ident (
@@ -169,10 +171,11 @@ macro_rules! enum_item_matcher {
         ),* $(,)?
     //∨~~rest of input~~∨
     ) $(, $($tt:tt)* )? ) => {
-        
+
         // process rest of the enum
-        $( enum_item_matcher!(@variant $( $tt )*) )?
+        $( enum_item_matcher!(@variant $( $tt )*); )?
     };
+
     // named variant
     (@variant $variant:ident {
         $(
@@ -184,17 +187,20 @@ macro_rules! enum_item_matcher {
     //∨~~rest of input~~∨
     } $(, $($tt:tt)* )? ) => {
         // process rest of the enum
-        $( enum_item_matcher!(@variant $( $tt )*) )?
+        $( enum_item_matcher!(@variant $( $tt )*); )?
     };
+
     // unit variant
     (@variant $variant:ident $(, $($tt:tt)* )? ) => {
         // process rest of the enum
-        $( enum_item_matcher!(@variant $( $tt )*) )?
+        $( enum_item_matcher!(@variant $( $tt )*); )?
     };
+
     // trailing comma
     (@variant ,) => {};
     // base case
     (@variant) => {};
+
     // entry point
     (
         $( #[$meta:meta] )*
@@ -202,29 +208,31 @@ macro_rules! enum_item_matcher {
             $($tt:tt)*
         }
     ) => {
-        enum_item_matcher!(@variant $($tt)*)
+        enum_item_matcher!(@variant $($tt)*);
     };
 }
 
-#enum_item_matcher!(
-#    #[derive(Copy, Clone)]
-#    pub(crate) enum Foo { 
-#        Bar,
-#        Baz,
-#    }
-#);
-#enum_item_matcher!(
-#    #[derive(Copy, Clone)]
-#    pub(crate) enum Bar {
-#        Foo(i32, f32),
-#        Bar,
-#        Baz(),
-#    }
-#);
-#enum_item_matcher!(
-#    #[derive(Clone)]
-#    pub(crate) enum Baz {}
-#);
+enum_item_matcher!(
+    #[derive(Copy, Clone)]
+    pub(crate) enum Foo {
+        Bar,
+        Baz,
+    }
+);
+enum_item_matcher!(
+    #[derive(Copy, Clone)]
+    pub(crate) enum Bar {
+        Foo(i32, f32),
+        Bar,
+        Baz(),
+    }
+);
+enum_item_matcher!(
+    #[derive(Clone)]
+    pub(crate) enum Baz {}
+);
+
+fn main() {}
 ```
 
 [patterns]:/patterns.html
