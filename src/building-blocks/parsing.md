@@ -11,7 +11,7 @@
 解析的方式也不会太复杂。
 也就是说，我们不会涉及解析 *泛型* 之类的东西。
 
-重点在于宏的匹配方式 (matchers) ；展开的部分 （ *Reference* 里使用的词语叫做 [transcribers] ），
+重点在于宏的匹配方式 (matchers) ；展开的部分 （ *Reference* 里使用的术语叫做 [transcribers] ），
 仅仅用作例子，不需要特别关心它。
 
 ## 解析函数
@@ -150,7 +150,7 @@ macro_rules! struct_item_matcher {
 #}
 ```
 
-# 枚举体
+## 枚举体
 
 解析枚举体比解析结构体更复杂一点，所以会用上 [模式][patterns] 这章讨论的技巧：
 [`TT` 撕咬机][Incremental TT Muncher] 和 [内用规则][Internal Rules] 。

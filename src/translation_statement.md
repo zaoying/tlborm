@@ -27,6 +27,7 @@
 - [导入/导出宏](./macros/minutiae/import-export.md)
 - 计数：[bit twiddling](./building-blocks/counting.md#bit-twiddling)
 - 译者补充：[算盘游戏](./building-blocks/abacus-counting.md#算盘游戏)
+- 构件：[解析](./building-blocks/parsing.md)
 
 
 另外，此翻译版本提供的阅读功能：
