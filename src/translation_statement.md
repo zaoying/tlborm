@@ -20,8 +20,8 @@
 
 主要补充的部分在于：
 
-- *macro_rules!* ：[Metavariables](./macros/macro_rules.html#metavariables)
-- [片段分类符](./macros/minutiae/fragment-specifiers.html)
+- *macro_rules!* ：[元变量 (metavariables)](./macros/macro_rules.html#元变量-metavariables)
+- [片段分类符 (fragment-specifiers)](./macros/minutiae/fragment-specifiers.html)
 - 调试：[其他调试工具](./macros/minutiae/debugging.html#其他调试工具)
 - [作用域](./macros/minutiae/scoping.md)
 - [导入/导出宏](./macros/minutiae/import-export.md)
