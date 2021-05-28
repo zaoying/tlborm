@@ -23,7 +23,7 @@ macro_rules! function_item_matcher {
         $( #[$meta:meta] )*
     //  ^~~~attributes~~~~^
         $vis:vis fn $name:ident ( $( $arg_name:ident : $arg_ty:ty ),* $(,)? )
-    //                          ^~~~~~~~~~~~~~~~argument list~~~~~~~~~~~~~~~^
+    //                          ^~~~~~~~~~~~~~~~argument list!~~~~~~~~~~~~~~^
             $( -> $ret_ty:ty )?
     //      ^~~~return type~~~^
             { $($tt:tt)* }
