@@ -196,7 +196,7 @@ patterns! {
 
 ## `expr`
 
-`expr` 人类非匹配任何形式的表达式
+`expr` 分类符用于匹配任何形式的表达式
 ([expression](https://doc.rust-lang.org/reference/expressions.html))。
 
 （如果把 Rust 视为面向表达式的语言，那么它有很多种表达式。）
