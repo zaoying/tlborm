@@ -1362,7 +1362,7 @@ for e in recurrence!(f[i]: f64 = 1.0; ...; f[i-1] * i as f64).take(10) {
 `main` 函数放在 bin crate，那么需要做一点更改。（即使它们都处于同一个 package 下）
 
 假设 `recurrence!` 和其依赖的 `count_exprs!` 被定义在 `macs` lib crate，
-根据 [导入/导出宏#2018 版本](minutiae/import-export.html#2018-版本) 小节。
+根据 [导入/导出宏#2018 版本](./macros/minutiae/import-export.html#2018-版本) 小节。
 
 首先你得把这两个宏导出，否则使用 `macs` lib 的 crate 会找不到宏：
 
