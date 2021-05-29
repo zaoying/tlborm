@@ -30,7 +30,7 @@
 的 **定义** (definitions) ，
 不会匹配指向 item 的标识符 (identifiers)。例子：
 
-```rust
+```rust,editable
 macro_rules! items {
     ($($item:item)*) => ();
 }
@@ -70,7 +70,7 @@ items! {
 块 (block) 由 `{` 开始，接着是一些语句，最后是可选的表达式，然后以 `}` 结束。
 块的类型要么是最后的值表达式类型，要么是 `()` 类型。
 
-```rust
+```rust,editable
 macro_rules! blocks {
     ($($block:block)*) => ();
 }
