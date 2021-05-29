@@ -157,7 +157,7 @@ macro_rules! struct_item_matcher {
 
 不是重新构造被解析的枚举体，而是只访问枚举体所有的标记 (tokens)，
 因为重构枚举体将需要我们再通过 [下推累积][Push Down Accumulator] 
-临时组合所有已解析的令牌 。
+临时组合所有已解析的标记 (tokens) 。
 
 ```rust,editable
 macro_rules! enum_item_matcher {
