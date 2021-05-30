@@ -1,5 +1,6 @@
 # 增量式 `TT` “撕咬机”
 
+> 译者注：原文标题为 *incremental `TT` muncher* 。
 
 ```rust
 macro_rules! mixed_rules {
@@ -36,7 +37,6 @@ macro_rules! mixed_rules {
 此模式可能是 **最强大** 的宏解析技巧。
 通过使用它，一些极其复杂的语法都能得到解析。
 
-> 译者注：原文标题为 *incremental `TT` muncher* 。
 
 “标记树撕咬机” (`TT` muncher) 是一种递归宏，
 其工作机制有赖于对输入的顺次、逐步处理 (incrementally processing) 。
@@ -57,7 +57,9 @@ macro_rules! mixed_rules {
 在写标记树撕咬机时，建议多花些功夫，尽可能地限制递归调用的次数。
 
 以下两种做法帮助你做到限制宏递归：
-1. 对于输入的变化，增加额外的匹配规则（而不是采用中间层并使用递归）；
+1. 对于输入的变化，增加额外的匹配规则（而不是采用中间层并使用递归）[^example]；
 2. 对输入句法施加限制，以便于记录追踪标准式的反复匹配。
+
+[^example]: 例子见 [计数-递归](../building-blocks/counting.html#递归)
 
 [`tt`]:../macros/minutiae/fragment-specifiers.md#tt

@@ -176,7 +176,7 @@ fn main() {
 ## 其他调试工具
 
 1. `rustc` 提供了帮助调试的工具：不仅仅是上面谈到的 `--pretty=expanded` 命令行参数选项，
-[dtolnay] 编写的 [`cargo-expand`] 插件对 `rustc` 调试功能进行基本的封装。
+[dtolnay] 编写的 [`cargo-expand`] 插件对 `rustc` 调试功能进行基本的封装[^example]。
 
 2. 你还可以使用 [playground] ：点击页面右上方的 `TOOLS` 按钮，再点击宏展开按钮 (expand macros)。
 
@@ -192,3 +192,4 @@ fn main() {
 [lukaslueg]:https://github.com/lukaslueg
 [`macro_railroad`]:https://github.com/lukaslueg/macro_railroad
 
+[^example]: 例子见 [计数-bit-twiddling](../building-blocks/counting.html#bit-twiddling)
