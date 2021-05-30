@@ -3,11 +3,10 @@
 > 注意：这是对 [Daniel Keep 撰写的书](https://github.com/DanielKeep/tlborm) 的续写，
 > 自 2016 年初夏以来，那本书就一直没再更新。
 
-本书使用 [mdBook](https://github.com/rust-lang/mdBook) 工具生成。
+本书的续写者为 [Veykril](https://github.com/veykril)，
+使用 [mdBook](https://github.com/rust-lang/mdBook) 工具生成。
 你可以浏览本书的 [英文版本](https://veykril.github.io/tlborm/)，
-和 github [仓库](https://github.com/veykril/tlborm)。
-
-（译者注：我对原作和续作进行了梳理，见 [翻译说明](./translation_statement.html)）
+和 github [仓库](https://github.com/veykril/tlborm)。[^translation-statement]
 
 这本书尝试提炼出 Rust 社区对 Rust 宏的共识，准确地说，是 *通过例子* 来讲述宏。
 因此，欢迎 PR 补充和提 issue。
@@ -19,15 +18,21 @@
 以帮助新的 Rust 学习者理解（声明）宏——这个让很多人困惑的部分。
 
 > 这本书认为你应该对 Rust 有基本的了解，它不会解释 Rust 语言特性或者与宏有关的结构。
-> 如果你之前对宏没有了解，那么你必须至少阅读和理解了 [Rust Book](https://doc.rust-lang.org/stable/book/) 的前七章——建议阅读完那本书大部分内容。
+> 如果你之前对宏没有了解，那么你必须至少阅读和理解了
+[Rust Book](https://doc.rust-lang.org/stable/book/) 
+的前七章——建议阅读完那本书大部分内容。
+
+[^translation-statement]:译者注：我对原作和续作进行了梳理，见 [翻译说明](./translation_statement.html)
 
 ## 致谢
 
 感谢 [Daniel Keep](https://github.com/DanielKeep/tlborm) 最初写下这本书。
 
-感谢对原书提出建议和更正的读者：IcyFoxy、 Rym、 TheMicroWorm、 Yurume、 akavel、 cmr、 eddyb、 ogham 和 snake_case。
+感谢对原书提出建议和更正的读者：
+IcyFoxy、 Rym、 TheMicroWorm、 Yurume、 akavel、 cmr、 eddyb、 ogham 和 snake_case。
 
-感谢 [DaseinPhaos](https://github.com/DaseinPhaos/tlborm-chinese) 对原作的翻译。也感谢 Jorel Ali 给 mdbook 提供的 [页面 TOC](https://github.com/JorelAli/mdBook-pagetoc) 小功能。
+感谢 [DaseinPhaos](https://github.com/DaseinPhaos/tlborm-chinese) 对原作的翻译。
+也感谢 Jorel Ali 给 mdbook 提供的 [页面 TOC](https://github.com/JorelAli/mdBook-pagetoc) 小功能。
 
 ## 版权声明
 
