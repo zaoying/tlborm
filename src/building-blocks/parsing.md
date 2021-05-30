@@ -14,7 +14,7 @@
 重点在于宏的匹配方式 (matchers) ；展开的部分 （ *Reference* 里使用的术语叫做 [transcribers] ），
 仅仅用作例子，不需要特别关心它。
 
-## 解析函数
+## 函数
 
 ```rust,editable
 macro_rules! function_item_matcher {
