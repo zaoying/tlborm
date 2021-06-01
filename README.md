@@ -1,7 +1,7 @@
 # Rust 宏小册
 
 > 注意：这是对 [Daniel Keep 撰写的书](https://github.com/DanielKeep/tlborm) 的续写，
-> 自 2016 年初夏以来，那本书就一直没再更新。
+> 自 2016 年初夏以来，那本书就没再更新。
 
 本书的续写者为 [Veykril](https://github.com/veykril)，
 使用 [mdBook](https://github.com/rust-lang/mdBook) 工具生成。
