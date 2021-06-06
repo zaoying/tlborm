@@ -2,11 +2,14 @@
 /* Globals */
 
 :root {
-    --sidebar-width: 290px;
+    --sidebar-width: 210px;
     --page-padding: 15px;
-    --content-max-width: 1350px;
-    --content-min-width: 1000px;
+    --content-max-width: 1000px;
+    --content-min-width: 800px;
     --menu-bar-height: 40px;
+    /* added pagetoc setting */
+    --pagetoc-width: 190px;
+    --pagetoc-fontsize: 12px;
 }
 
 /* Themes */
@@ -106,9 +109,9 @@
     --icons: #747474;
     --icons-hover: #000000;
 
-    --links: #20609f;
+    --links: #1f1fff;
 
-    --inline-code-color: #301900;
+    --inline-code-color: #F42C4C;
 
     --theme-popup-bg: #fafafa;
     --theme-popup-border: #cccccc;

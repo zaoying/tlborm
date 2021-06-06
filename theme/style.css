@@ -13,11 +13,11 @@
         margin-right: auto;
         left: calc(90% + (var(--content-min-width))/4 - 80px);
         position: absolute;
-        font-size: 16px;
+        font-size: var(--pagetoc-fontsize);
     }
     .pagetoc {
         position: fixed;
-        width: 250px;
+        width: var(--pagetoc-width);
         /* width: 200px; */
     }
     .pagetoc a {
@@ -29,13 +29,14 @@
         padding-left: 10px;
         text-align: left;
         text-decoration: none;
+        font-weight: normal;
     }
     .pagetoc a:hover,
     .pagetoc a.active {
         background: var(--sidebar-bg);
         color: var(--sidebar-active);
         font-weight: bold;
-        font-size: 17px;
+        font-size: var(--pagetoc-fontsize)+1px;
         /* color: var(--sidebar-fg); */
     }
     .pagetoc .active {
