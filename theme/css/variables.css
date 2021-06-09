@@ -2,14 +2,16 @@
 /* Globals */
 
 :root {
-    --sidebar-width: 210px;
+    --sidebar-width: 240px;
     --page-padding: 15px;
-    --content-max-width: 1000px;
-    --content-min-width: 800px;
+    /* --content-max-width: 3050px; */
+    --content-max-width: 85%;
+    /* --content-min-width: 600px; */
     --menu-bar-height: 40px;
     /* added pagetoc setting */
-    --pagetoc-width: 190px;
-    --pagetoc-fontsize: 12px;
+    /* --pagetoc-width: 150px; */
+    --pagetoc-width: 11%;
+    --pagetoc-fontsize: 15px;
 }
 
 /* Themes */
