@@ -22,7 +22,7 @@ body {
 
 code {
     font-family: "Source Code Pro", Consolas, "Ubuntu Mono", Menlo, "DejaVu Sans Mono", monospace, monospace !important;
-    font-size: 0.85em; /* please adjust the ace font size accordingly in editor.js */
+    font-size: 0.9em; /* please adjust the ace font size accordingly in editor.js */
 }
 
 /* Don't change font size in headers. */
@@ -84,7 +84,6 @@ h6:target::before {
 }
 .content main {
     margin-left: 2%;
-    /* margin-right: auto; */
     margin-right: 2%;
     max-width: var(--content-max-width);
 }
@@ -93,7 +92,7 @@ h6:target::before {
 .content ul { line-height: 1.45em; }
 .content a { text-decoration: none; }
 .content a:hover { text-decoration: underline; }
-.content img { max-width: 100%; }
+.content img, .content video { max-width: 100%; }
 .content .header:link,
 .content .header:visited {
     color: var(--fg);

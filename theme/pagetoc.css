@@ -1,3 +1,5 @@
+/* src: https://github.com/JorelAli/mdBook-pagetoc */
+
 @media only screen and (max-width:1439px) {
     .sidetoc {
         display: none;
@@ -11,15 +13,14 @@
     .sidetoc {
         margin-left: auto;
         margin-right: auto;
+        /* left: calc(90% + (var(--content-min-width))/4 - 110px); */
         left: 101%;
-        /* left: calc(90% + (var(--content-min-width))/4 - 20px); */
         position: absolute;
         font-size: var(--pagetoc-fontsize);
     }
     .pagetoc {
         position: fixed;
         width: var(--pagetoc-width);
-        /* width: 200px; */
     }
     .pagetoc a {
         border-left: 1px solid var(--sidebar-bg);
@@ -35,10 +36,10 @@
     .pagetoc a:hover,
     .pagetoc a.active {
         background: var(--sidebar-bg);
+        /* color: var(--sidebar-fg); */
         color: var(--sidebar-active);
         font-weight: bold;
-        font-size: var(--pagetoc-fontsize)+1px;
-        /* color: var(--sidebar-fg); */
+        font-size: var(--pagetoc-fontsize);
     }
     .pagetoc .active {
         background: var(--sidebar-bg);

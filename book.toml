@@ -5,6 +5,13 @@ multilingual = true
 src = "src"
 title = "The Little Book of Rust Macros （Rust 宏小册）"
 
+[preprocessor.theme]
+pagetoc = true
+pagetoc-width = "13%"
+content-max-width = "82%"
+sidebar-width = "250px"
+sidebar-font-size = "0.85em"
+
 [build]
 create-missing = true
 build-dir = "book"
@@ -19,11 +26,11 @@ default-theme = "ayu"
 site-url = "/tlborm/"
 mathjax-support = true
 git-repository-url = "https://github.com/zjp-CN/tlborm"
-additional-css = ["theme/rust-syntax-bg-highlight.css", "theme/style.css"]
-additional-js = ["theme/sidebar.js"]
+additional-css = ["theme/pagetoc.css"]
+additional-js = ["theme/pagetoc.js"]
 
 [output.html.fold]
-enable = true
+enable = false
 level = 1
 
 [output.html.playground]
