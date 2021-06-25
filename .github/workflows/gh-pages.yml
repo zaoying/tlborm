@@ -21,6 +21,8 @@ jobs:
           wget https://github.com/zjp-CN/mdbook-theme/releases/download/v0.1.1/mdbook-theme_linux.tar.gz
           tar -xvzf mdbook-theme_linux.tar.gz
           export PATH="$PWD:$PATH"
+          echo $PWD
+          echo $PATH
 
       - run: mdbook build
 
