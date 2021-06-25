@@ -20,8 +20,7 @@ jobs:
         run: |
           wget https://github.com/zjp-CN/mdbook-theme/releases/download/v0.1.1/mdbook-theme_linux.tar.gz
           tar -xvzf mdbook-theme_linux.tar.gz
-          export PATH="$PWD/mdbook-theme:$PWD/mdbook-theme-ace:$PATH"
-          echo $PATH
+          export PATH="$PWD:$PATH"
 
       - run: mdbook build
 
