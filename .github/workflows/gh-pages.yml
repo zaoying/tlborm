@@ -16,7 +16,7 @@ jobs:
         with:
           mdbook-version: 'latest'
 
-      - name: Setup mdbook-theme v0.1.1
+      - name: Setup mdbook-theme latest
         run: |
           curl -s https://api.github.com/repos/zjp-CN/mdbook-theme/releases/latest \
                | grep browser_download_url \
