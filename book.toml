@@ -26,7 +26,7 @@ default-theme = "ayu"
 site-url = "/tlborm/"
 mathjax-support = true
 git-repository-url = "https://github.com/zjp-CN/tlborm"
-additional-css = ["theme/pagetoc.css"]
+additional-css = ["theme/pagetoc.css", "theme/rust-syntax-bg-highlight.css"]
 additional-js = ["theme/pagetoc.js"]
 
 [output.html.fold]
