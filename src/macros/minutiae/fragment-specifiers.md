@@ -87,7 +87,7 @@ blocks! {
 
 ## `stmt`
 
-`stat` 分类符只匹配的 语句 ([statement](https://doc.rust-lang.org/reference/statements.html))。
+`stmt` 分类符只匹配的 语句 ([statement](https://doc.rust-lang.org/reference/statements.html))。
 除非 item 语句要求结尾有分号，否则 **不会** 匹配语句最后的分号。
 
 什么叫 item 语句要求结尾有分号呢？单元结构体 (Unit-Struct) 就是一个简单的例子，
