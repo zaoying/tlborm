@@ -6,6 +6,7 @@
     - [源代码分析](./syntax-extensions/source-analysis.md)
     - [AST 中的宏](./syntax-extensions/ast.md)
     - [宏展开](./syntax-extensions/expansion.md)
+    - [卫生性](./syntax-extensions/hygiene.md)
     - [调试](./syntax-extensions/debugging.md)
 - [声明宏](./decl-macros.md)
     - [思路](./decl-macros/macros-methodical.md)
