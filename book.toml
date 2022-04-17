@@ -5,8 +5,8 @@ multilingual = true
 src = "src"
 title = "The Little Book of Rust Macros （Rust 宏小册）"
 
-[rust]
-edition = "2021" 
+# [rust]
+# edition = "2021"
 
 # [preprocessor.theme]
 # pagetoc = true

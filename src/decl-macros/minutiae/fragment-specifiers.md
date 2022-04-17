@@ -198,7 +198,7 @@ fn main() {}
 ([pattern](https://doc.rust-lang.org/reference/patterns.html))，包括 2021 edition
 开始的 [or-patterns](https://doc.rust-lang.org/reference/patterns.html#or-patterns)。
 
-```rust,editable
+```rust,editable,edition2021
 macro_rules! patterns {
     ($($pat:pat)*) => ();
 }
@@ -220,7 +220,7 @@ fn main() {}
 为了避免这个问题或者说恢复旧的 `pat` 分类符行为，你可以使用 `pat_param` 片段，它允许
 `|` 跟在它后面，因为 `pat_param` 不允许 top level 或 or-patterns。
 
-```rust,editable
+```rust,editable,edition2021
 macro_rules! patterns {
     (pat: $pat:pat) => {
         println!("pat: {}", stringify!($pat));
@@ -239,7 +239,7 @@ fn main() {
 }
 ```
 
-```rust,editable
+```rust,editable,edition2021
 macro_rules! patterns {
     ($( $( $pat:pat_param )|+ )*) => ();
 }
