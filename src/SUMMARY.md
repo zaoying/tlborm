@@ -16,6 +16,7 @@
         - [再谈元变量与宏展开](./decl-macros/minutiae/metavar-and-expansion.md)
         - [宏是部分“卫生的”](./decl-macros/minutiae/hygiene.md)
         - [非标识符的“标识符”](./decl-macros/minutiae/identifiers.md)
+        - [调试](./decl-macros/minutiae/debugging.md)
         - [作用域](./decl-macros/minutiae/scoping.md)
         - [导入/导出宏](./decl-macros/minutiae/import-export.md)
     - [模式](./decl-macros/patterns.md)
