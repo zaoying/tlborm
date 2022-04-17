@@ -5,21 +5,16 @@ multilingual = true
 src = "src"
 title = "The Little Book of Rust Macros （Rust 宏小册）"
 
-[preprocessor.theme]
-pagetoc = true
-pagetoc-width = "13%"
-content-max-width = "82%"
-sidebar-width = "250px"
-sidebar-font-size = "0.85em"
+# [preprocessor.theme]
+# pagetoc = true
+# pagetoc-width = "13%"
+# content-max-width = "82%"
+# sidebar-width = "250px"
+# sidebar-font-size = "0.85em"
 
 [build]
 create-missing = true
 build-dir = "book"
-
-#[preprocessor.toc]
-#command = "mdbook-toc"
-#renderer = ["html"]
-#max-level = 4
 
 [output.html]
 default-theme = "ayu"
