@@ -61,4 +61,4 @@ fn main() {
 随后，终结规则 (terminal rules) 将这组标记解构 (destructure) ，
 并访问其中的表达式。
 
-[`tt`]:./fragment-specifiers.html#tt
+[`tt`]: ../minutiae/fragment-specifiers.html#tt
