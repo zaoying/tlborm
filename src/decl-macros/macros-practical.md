@@ -7,7 +7,7 @@
 在 Rust Book 中也有专门一章 [讲解宏](https://doc.rust-lang.org/book/ch19-06-macros.html)
 （[中文版](https://rustwiki.org/zh-CN/book/ch19-06-macros.html)），
 同样提供了高层面的讲解。
-此外，本书也有一章 [更富条理的介绍](/macros.html)，旨在详细阐释宏系统。
+此外，本书也有一章 [更富条理的介绍](./macros-methodical.md)，旨在详细阐释宏系统。
 
 > 译者注：建议初学者跟着文章思路一步步走下去，
 从看懂文字说明和样例代码开始，能够运行的代码块运行一遍，看看效果。
