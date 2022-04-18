@@ -83,8 +83,8 @@ h6:target::before {
     padding-bottom: 50px;
 }
 .content main {
-    margin-left: 2%;
-    margin-right: 2%;
+    margin-left: 4%;
+    margin-right: 4%;
     max-width: var(--content-max-width);
 }
 .content p { line-height: 1.45em; }
