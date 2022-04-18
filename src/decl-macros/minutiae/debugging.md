@@ -1,12 +1,16 @@
-# Debugging
+# 调试
 
-> **Note**: This is a list of debugging tools specifically tailored towards declarative macros, additional means of debugging these can be found in the [debugging chapter](../../syntax-extensions/debugging.md) of syntax extensions.
+> 注意：这是一个专门为声明宏量身定做的调试工具清单，调试宏的其他方法可以在语法扩展的
+> [调试][syntax-debugging] 章节中找到。
 
-One of the most useful is [`trace_macros!`], which is a directive to the compiler instructing it to dump every `macro_rules!` macro invocation prior to expansion.
-For example, given the following:
+## `trace_macros!`
+
+最有用的是 [`trace_macros!`]，在每次声明宏展开前，它指示编译器记录下声明宏的调用信息。
+
+例如：
 
 ```rust,ignore
-# // Note: make sure to use a nightly channel compiler.
+# // 注意：这需要 nightly Rust
 #![feature(trace_macros)]
 
 macro_rules! each_tt {
@@ -23,7 +27,7 @@ each_tt!(trom qlip winp xod);
 # fn main() {}
 ```
 
-The output is:
+输出为：
 
 ```text
 note: trace_macro
@@ -47,11 +51,22 @@ note: trace_macro
 This is *particularly* invaluable when debugging deeply recursive `macro_rules!` macros.
 You can also enable this from the command-line by adding `-Z trace-macros` to the compiler command line.
 
-Secondly, there is [`log_syntax!`] which causes the compiler to output all tokens passed to it.
-For example, this makes the compiler sing a song:
+它在调试递归很深的宏时尤其有用。
+
+此外，你可以在命令行里，给编译指令附加 `-Z trace-macros` 来打印追踪的宏。
+
+`trace_macros!(false);` 之后的宏不会被这个附加指令追踪到，所以这里会追踪前两个宏。
+
+参考命令：`cargo rustc --bin binary_name  -- -Z trace-macros`
+
+## `log_syntax!`
+
+另一有用的宏是 [`log_syntax!`]。它将使得编译器输出所有经过编译器处理的标记。
+
+比如让编译器“唱首歌”：
 
 ```rust
-# // Note: make sure to use a nightly channel compiler.
+# // 注意：这需要 nightly Rust
 #![feature(log_syntax)]
 
 macro_rules! sing {
@@ -71,10 +86,20 @@ sing! {
 # fn main() {}
 ```
 
-This can be used to do slightly more targeted debugging than [`trace_macros!`].
+比起 `trace_macros!` 来说，它能够做一些更有针对性的调试。
 
-Another amazing tool is [`lukaslueg`'s](https://github.com/lukaslueg) [`macro_railroad`](https://github.com/lukaslueg/macro_railroad), a tool that allows you visualize and generate syntax diagrams for Rust's `macro_rules!` macros.
-It visualizes the accepted macro's grammar as an automata.
+## `macro_railroad` lib
 
-[`trace_macros!`]:https://doc.rust-lang.org/std/macro.trace_macros.html
-[`log_syntax!`]:https://doc.rust-lang.org/std/macro.log_syntax.html
+另一个很棒的工具是 [lukaslueg] 编写的 [`macro_railroad`] lib。
+
+它能可视化地生成 Rust `macro_rules!` 宏的语法图 (syntax diagrams)。
+
+它还有一个[浏览器插件][railroad-ext]，和一个可动态可视化声明宏的[静态网页][railroad-demo]。
+
+[syntax-debugging]: ../../syntax-extensions/debugging.md
+[`trace_macros!`]: https://doc.rust-lang.org/std/macro.trace_macros.html
+[`log_syntax!`]: https://doc.rust-lang.org/std/macro.log_syntax.html
+[lukaslueg]: https://github.com/lukaslueg
+[`macro_railroad`]: https://github.com/lukaslueg/macro_railroad
+[railroad-ext]: https://github.com/lukaslueg/macro_railroad_ext
+[railroad-demo]: https://lukaslueg.github.io/macro_railroad_wasm_demo
