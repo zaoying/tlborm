@@ -27,8 +27,9 @@ Rust 宏学习者理解宏系统 —— 这个让很多人困惑的部分。
 > 你必须至少阅读和理解了 [Rust Book](https://doc.rust-lang.org/stable/book/) 
 > 的前七章 —— 当然，建议你阅读完 Rust Book 的大部分内容。
 
-[^translation-statement]:译者注：我对原作和续作进行了梳理，见 [翻译说明](./translation_statement.html)
-[^macros]: 译者注：2022 年的中文版随续作更新了过程宏，而声明宏也一直在演进，这意味着这本书与原作在某些地方可能截然不同。
+[^translation-statement]:译者注：我对原作和续作进行了梳理，见 [翻译说明](./translation_statement.html)。
+
+[^macros]: 译者注：2022 年的中文版随续作更新了过程宏，而声明宏也一直在演进。
 
 ## 致谢
 
