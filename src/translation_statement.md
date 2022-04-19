@@ -16,7 +16,7 @@
 
 续作及本翻译渲染版本使用 mdbook 构建：
 - 续作：[repo](https://github.com/veykril/tlborm) | [渲染版](https://veykril.github.io/tlborm/)
-- 续作中文翻译：[repo](https://github.com/zjp-CN/tlborm) | [渲染版](https://zjp-cn.github.io/tlborm) | [加速查看站点](http://129.28.186.100/tlborm)
+- 续作中文翻译：[repo](https://github.com/zjp-CN/tlborm) | [渲染版](https://zjp-cn.github.io/tlborm)
 
 主要补充的部分在于：
 
