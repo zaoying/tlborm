@@ -20,14 +20,14 @@
 
 主要补充的部分在于：
 
-- *macro_rules!* ：[元变量 (metavariables)](./macros/macro_rules.html#元变量-metavariables)
-- [片段分类符 (fragment-specifiers)](./macros/minutiae/fragment-specifiers.html)
-- 调试：[其他调试工具](./macros/minutiae/debugging.html#其他调试工具)
-- [作用域](./macros/minutiae/scoping.md)
-- [导入/导出宏](./macros/minutiae/import-export.md)
-- 计数：[bit twiddling](./building-blocks/counting.md#bit-twiddling)
-- 译者补充：[算盘游戏](./building-blocks/abacus-counting.md#算盘游戏)
-- 构件：[解析](./building-blocks/parsing.md)
+- [元变量 (metavariables)](./decl-macros/macros-methodical.html#元变量)
+- [片段分类符 (fragment-specifiers)](./decl-macros/minutiae/fragment-specifiers.md)
+- [调试](./decl-macros/minutiae/debugging.md)
+- [作用域](./decl-macros/minutiae/scoping.md)
+- [导入/导出宏](./decl-macros/minutiae/import-export.md)
+- [计数：bit twiddling](./decl-macros/building-blocks/counting.md#bit-twiddling)
+- 译者补充：[算盘游戏](./decl-macros/building-blocks/abacus-counting.md#算盘游戏)
+- [构件：解析](./decl-macros/building-blocks/parsing.md)
 
 
 另外，此翻译版本提供的阅读功能：
