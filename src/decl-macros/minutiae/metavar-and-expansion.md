@@ -34,12 +34,15 @@ fn main() {
 在 Rust 1.52 中，能够紧跟片段分类符后面的内容具有如下限制[^Follow-set Ambiguity Restrictions]：
 
 * [`stmt`] 和 [`expr`]：`=>`、`,`、`;` 之一
-* [`pat`]：`=>`、`,`、`=`、`|`、`if`、`in` 之一
+* [`pat`]：`=>`、`,`、`=`、`if`、`in` 之一[^pat-edition]
+* [`pat_param`]：`=>`、`,`、`=`、`|`、`if`、`in` 之一
 * [`path`] 和 [`ty`]：`=>`、`,`、`=`、`|`、`;`、`:`、`>`、`>>`、`[`、`{`、`as`、`where` 之一；
 或者 [`block`] 型的元变量
 * [`vis`]：`,`、除了 `priv` 之外的标识符、任何以类型开头的标记、
 [`ident`] 或 [`ty`] 或 [`path`] 型的元变量
 * 其他片段分类符所跟的内容无限制
+
+[^pat-edition]: 使用 2021 edition 之前的 Rust，`pat` 依然可以跟随 `|`。
 
 反复匹配的情况也遵循这些限制[^Follow-set Ambiguity Restrictions]，也就是说：
 
