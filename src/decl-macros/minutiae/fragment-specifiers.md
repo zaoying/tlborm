@@ -6,7 +6,7 @@
 这一节会更深入地探讨他们之中的细节，每次都会展示几个匹配的例子。
 
 > 注意：除了 `ident`、`lifetime` 和 `tt` 分类符之外，其余的分类符在匹配后生成的 
-> AST 是不清楚的 (opaque)，这使得在之后的宏调用时不可能检查 (inspect) 捕获的结果。
+> AST 是不清楚的 (opaque)，这使得在之后的宏调用时不可能检查 (inspect) 捕获的结果。[^opaque]
 
 * [`block`](#block)
 * [`expr`](#expr)
@@ -24,6 +24,7 @@
 * [`vis`](#vis)
 
 [^metavariables]: 最新内容可参考 *Reference* 的 [Metavariables](https://doc.rust-lang.org/nightly/reference/macros-by-example.html#metavariables) 一节。
+[^opaque]: 推荐通过 rust quiz [#9](https://dtolnay.github.io/rust-quiz/9) 来理解这句话。
 
 ## `block`
 
