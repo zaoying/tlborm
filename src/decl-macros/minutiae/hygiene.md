@@ -13,7 +13,9 @@ Rust 里的声明宏是 **部分** 卫生的 (partially hygienic 或者称作 mi
 2. [labels](https://doc.rust-lang.org/reference/expressions/loop-expr.html#loop-labels)
 3. [`$crate`](#crate-元变量)
 
-**除此之外，声明宏都不是卫生的。**
+**除此之外，声明宏都不是卫生的。**[^unhygientic]
+
+[^unhygientic]: 推荐尝试 Rust Quiz [#24](https://dtolnay.github.io/rust-quiz/24)
 
 之所以能做到“卫生”，是因为每个标识符都被赋予了一个看不见的“句法上下文”
 (syntax context)。在比较两个标识符时，只有在标识符的原文名称和句法上下文都
