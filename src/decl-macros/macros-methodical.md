@@ -89,7 +89,7 @@ macro_rules! gibberish {
 }
 ```
 
-使用 `gibberish!(4 fn ['spang "whammo"] @_@'])` 即可成功匹配和调用。
+使用 `gibberish!(4 fn ['spang "whammo"] @_@])` 即可成功匹配和调用。
 
 你能写出什么标记树，就可以使用什么标记树。
 
