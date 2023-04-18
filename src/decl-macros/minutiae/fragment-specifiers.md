@@ -400,8 +400,7 @@ fn main() {}
 
 ## `vis`
 
-`vis` 分类符会匹配 **可能为空** 的内容。
-([Visibility qualifier](https://doc.rust-lang.org/reference/visibility-and-privacy.html))。
+`vis` 分类符会匹配 **可能为空** 可见性修饰符 ([Visibility qualifier](https://doc.rust-lang.org/reference/visibility-and-privacy.html))。
 
 ```rust,editable
 macro_rules! visibilities {
