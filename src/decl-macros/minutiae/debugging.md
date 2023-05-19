@@ -48,9 +48,6 @@ note: trace_macro
    = note: to ``
 ```
 
-This is *particularly* invaluable when debugging deeply recursive `macro_rules!` macros.
-You can also enable this from the command-line by adding `-Z trace-macros` to the compiler command line.
-
 它在调试递归很深的宏时尤其有用。
 
 此外，你可以在命令行里，给编译指令附加 `-Z trace-macros` 来打印追踪的宏。
