@@ -1,7 +1,8 @@
 # 卫生性
 
 > 译者注：卫生性 (hygiene) 描述的是 **标识符**
-> 在宏处理和展开过程中是“唯一的”、“没有歧义的”、“不被同名标识符污染的”。
+> 在宏处理和展开过程中是“宏定义处的标识符不与外部定义的标识符交互”、“不被外部同名标识符污染的”。见
+> [卫生性和 Span](https://zjp-cn.github.io/tlborm/proc-macros/hygiene.html)。
 
 ## 宏是部分卫生的
 
@@ -15,7 +16,7 @@ Rust 里的声明宏是 **部分** 卫生的 (partially hygienic 或者称作 mi
 
 **除此之外，声明宏都不是卫生的。**[^unhygientic]
 
-[^unhygientic]: 推荐尝试 Rust Quiz [#24](https://dtolnay.github.io/rust-quiz/24)
+[^unhygientic]: 推荐尝试 Rust Quiz [#24](https://dtolnay.github.io/rust-quiz/24)，并阅读 [“Truly Hygienic” Let Statements in Rust](https://sabrinajewson.org/blog/truly-hygienic-let)。
 
 之所以能做到“卫生”，是因为每个标识符都被赋予了一个看不见的“句法上下文”
 (syntax context)。在比较两个标识符时，只有在标识符的原文名称和句法上下文都
