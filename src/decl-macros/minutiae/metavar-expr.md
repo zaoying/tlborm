@@ -13,9 +13,9 @@
 本章将结合用例对它们进行更深入的介绍。
 
 * [`$$`](#dollar-dollar-)
-* [`${count(ident, depth)}`](#countident-depth)
+* [`${count($ident, depth)}`](#countident-depth)
 * [`${index(depth)}`](#indexdepth)
-* [`${length(depth)}`](#lengthdepth)
+* [`${len(depth)}`](#lengthdepth)
 * [`${ignore(ident)}`](#ignoreident)
 
 [methodical]: ../macros-methodical.md
@@ -64,7 +64,7 @@ bar!();
 
 [tt-$]: https://play.rust-lang.org/?version=nightly&mode=debug&edition=2021&gist=9ce18fc79ce17c77d20e74f3c46ee13c
 
-## `count(ident, depth)`
+## `count($ident, depth)`
 
 `count` 表达式展开成元变量 `$ident` 在给定反复深度的反复次数。
 
@@ -128,7 +128,7 @@ fn main() {
 }
 ```
 
-## `length(depth)`
+## `len(depth)`
 
 `length(depth)` 表达式展开为在给定反复深度的迭代次数。
 
