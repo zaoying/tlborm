@@ -8,16 +8,16 @@ title = "The Little Book of Rust Macros （Rust 宏小册）"
 # [rust]
 # edition = "2021"
 
-[preprocessor.theme]
-pagetoc = true
-pagetoc-width = "12%"
-content-max-width = "78%"
-sidebar-width = "255px"
-sidebar-font-size = "0.85em"
-content-main-margin-left  = "4%"
-content-main-margin-right = "4%"
-nav-chapters-max-width    = "3%"
-nav-chapters-min-width    = "3%"
+# [preprocessor.theme]
+# pagetoc = true
+# pagetoc-width = "12%"
+# content-max-width = "78%"
+# sidebar-width = "255px"
+# sidebar-font-size = "0.85em"
+# content-main-margin-left  = "4%"
+# content-main-margin-right = "4%"
+# nav-chapters-max-width    = "3%"
+# nav-chapters-min-width    = "3%"
 
 [build]
 create-missing = true
