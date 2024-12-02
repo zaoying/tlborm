@@ -78,9 +78,9 @@ bar!();
 
 macro_rules! foo {
     ( $( $outer:ident ( $( $inner:ident ),* ) ; )* ) => {
-        println!("count(outer, 0): $outer repeats {} times", ${count(outer)});
-        println!("count(inner, 0): The $inner repetition repeats {} times in the outer repetition", ${count(inner, 0)});
-        println!("count(inner, 1): $inner repeats {} times in the inner repetitions", ${count(inner, 1)});
+        println!("count(outer, 0): $outer repeats {} times", ${count($outer)});
+        println!("count(inner, 0): The $inner repetition repeats {} times in the outer repetition", ${count($inner, 0)});
+        println!("count(inner, 1): $inner repeats {} times in the inner repetitions", ${count($inner, 1)});
     };
 }
 
@@ -145,8 +145,8 @@ macro_rules! lets_count {
             $(
                 println!(
                     "'{}' in inner iteration {}/{} with '{}' in outer iteration {}/{} ",
-                    stringify!($inner), ${index()}, ${length()},
-                    stringify!($outer), ${index(1)}, ${length(1)},
+                    stringify!($inner), ${index()}, ${len()},
+                    stringify!($outer), ${index(1)}, ${len(1)},
                 );
             )*
         )*
@@ -178,7 +178,7 @@ macro_rules! repetition_tuples {
                 (
                     ${index()},
                     ${index(1)}
-                    ${ignore(inner)} // without this metavariable expression, compilation would fail
+                    ${ignore($inner)} // without this metavariable expression, compilation would fail
                 ),
             )*
         )*)
