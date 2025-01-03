@@ -25,11 +25,11 @@ build-dir = "book"
 
 [output.html]
 default-theme = "ayu"
-site-url = "/tlborm/"
+site-url = "/"
 mathjax-support = true
-git-repository-url = "https://github.com/zjp-CN/tlborm"
-additional-css = ["theme/pagetoc.css", "theme/rust-syntax-bg-highlight.css"]
-additional-js = ["theme/pagetoc.js"]
+git-repository-url = "https://github.com/zaoying/tlborm"
+# additional-css = ["theme/pagetoc.css", "theme/rust-syntax-bg-highlight.css"]
+# additional-js = ["theme/pagetoc.js"]
 
 [output.html.fold]
 enable = false
@@ -41,6 +41,6 @@ editable = true
 [output.html.print]
 enable = false
 
-[output.theme-ace]
-theme-white = "xcode"
-theme-dark = "monokai"
+# [output.theme-ace]
+# theme-white = "xcode"
+# theme-dark = "monokai"
